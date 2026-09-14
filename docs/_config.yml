@@ -1,7 +1,7 @@
 title: "AI in Engineering — MEEN41490"
 description: "Practical material for MEEN41490, AI in Engineering, UCD."
-baseurl: ""
-url: ""
+baseurl: "/ai-engineering-practicals"
+url: "https://juanbmedina.github.io"
 
 markdown: kramdown
 kramdown:

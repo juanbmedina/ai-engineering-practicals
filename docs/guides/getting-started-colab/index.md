@@ -20,32 +20,32 @@ Three facts about that arrangement matter today.
 Most practicals start from a shared notebook instead of a blank one. That file does not belong to you, and Colab makes the limitation obvious the moment you open it, before you type anything.
 
 1. Open the link shared in class or on Brightspace. The notebook opens in **view mode** — a banner across the top reads something like *"You do not have permission to save changes to this file"*, and the **Copy to Drive** icon appears in the toolbar instead of a save icon.
-![A read-only banner shown when opening a shared Colab notebook you do not own](/guides/getting-started-colab/assets/p16.png)
+![A read-only banner shown when opening a shared Colab notebook you do not own]({{ '/guides/getting-started-colab/assets/p16.png' | relative_url }})
 
 2. Go to **File → Save a copy in Drive**, or click the **Copy to Drive** toolbar icon if it is shown.
-![The File menu with Save a copy in Drive highlighted](/guides/getting-started-colab/assets/p17.png)
+![The File menu with Save a copy in Drive highlighted]({{ '/guides/getting-started-colab/assets/p17.png' | relative_url }})
 
 3. Colab creates a file named `Copy of <original name>.ipynb` inside your own **Colab Notebooks** folder and opens it in a new tab. That copy belongs to you, and it saves itself automatically as you type.
-![The copied notebook, now owned by the student in their own Drive](/guides/getting-started-colab/assets/p18.png)
+![The copied notebook, now owned by the student in their own Drive]({{ '/guides/getting-started-colab/assets/p18.png' | relative_url }})
 
 4. Click the title and rename the copy to `MEEN41490_P2_YourName`. Then close the original read-only tab, because you will not need it again.
 
 Your copy now lives in your Google Drive account. Therefore, you can reopen it from any computer, share it with a teammate, and recover an earlier version through **File → Revision history**. The entry **File → Locate in Drive** shows you where the file sits.
-![The File menu with Locate in Drive highlighted](/guides/getting-started-colab/assets/p15.png)
+![The File menu with Locate in Drive highlighted]({{ '/guides/getting-started-colab/assets/p15.png' | relative_url }})
 
 ## Find these four things
 
 **The Runtime menu** — controls the machine your code runs on, and the only menu you need today.
-![The Runtime menu in Colab](/guides/getting-started-colab/assets/p21.png)
+![The Runtime menu in Colab]({{ '/guides/getting-started-colab/assets/p21.png' | relative_url }})
 
 **+ Code and + Text, top left** — insert a new cell below the selected one.
-![The + Code and + Text buttons at the top left of a Colab notebook](/guides/getting-started-colab/assets/p22.png)
+![The + Code and + Text buttons at the top left of a Colab notebook]({{ '/guides/getting-started-colab/assets/p22.png' | relative_url }})
 
 **Top right corner** — connection status, showing *Connect* before you start and RAM and disk usage afterwards.
-![The connection status indicator in the top right corner of Colab](/guides/getting-started-colab/assets/p23.png)
+![The connection status indicator in the top right corner of Colab]({{ '/guides/getting-started-colab/assets/p23.png' | relative_url }})
 
 **Left sidebar, folder icon** — **Files**, the temporary storage of the virtual machine.
-![The Files panel opened from the folder icon in the left sidebar of Colab](/guides/getting-started-colab/assets/p24.png)
+![The Files panel opened from the folder icon in the left sidebar of Colab]({{ '/guides/getting-started-colab/assets/p24.png' | relative_url }})
 
 Two keyboard shortcuts save time. **Shift + Enter** runs the current cell and moves the selection to the next one, whereas **Ctrl + Enter**, or **Cmd + Enter** on Mac, runs the current cell and leaves the selection in place.
 
@@ -77,6 +77,6 @@ Read that line as an ordinary sentence. You used a name that the machine was nev
 | **Interrupt execution** | A cell is stuck and you want it to stop without clearing the memory |
 
 Finally, open **Runtime → Change runtime type**, look at the available options, and leave the setting on **CPU** for today.
-![The runtime type dialog in Colab, with CPU selected](/guides/getting-started-colab/assets/p61.png)
+![The runtime type dialog in Colab, with CPU selected]({{ '/guides/getting-started-colab/assets/p61.png' | relative_url }})
 
 A GPU contains thousands of small cores that perform simple arithmetic in parallel, and neural networks consist almost entirely of that kind of arithmetic. Consequently, training that needs an hour on a CPU can finish in a minute on a GPU. Free GPU access is rationed across all Colab users, so request one only for a task that genuinely needs it. Today's neuron has four numbers in it, and a CPU handles it instantly.

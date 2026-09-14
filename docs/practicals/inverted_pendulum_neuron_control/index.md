@@ -13,14 +13,14 @@ Every AI system you have heard about is built from one small component repeated 
 
 You will optimize a single neuron to keep a pole balanced on top of a moving cart. You will write it in Python inside Google Colab, a web platform that runs your code on a machine in a Google data centre and returns the result to your browser.
 
-![A cart moving along a rail, keeping a pole upright, controlled by a single neuron](/practicals/inverted_pendulum_neuron_control/assets/cartpole_balanced.gif)
+![A cart moving along a rail, keeping a pole upright, controlled by a single neuron]({{ '/practicals/inverted_pendulum_neuron_control/assets/cartpole_balanced.gif' | relative_url }})
 
 The pole in that animation stays up because a trained model controls the system. A trained model is a mathematical expression plus a set of numbers found by an optimisation process. Finding those numbers is the goal of many machine learning techniques. Today you will find the numbers by hand, acting as an optimizer.
 
 
 > **How to use this page.** The page contains the explanations and some parts of the code. The notebook contains the complementary code structures needed to make the simulation work. In some parts of the notebook the code has been removed and marked `# YOUR CODE HERE`. Read the explanation here, then write the code there.
 
-> **Before you begin.** If this is your first time in Google Colab, read [Getting Started with Google Colab](/guides/getting-started-colab/) first. It covers opening the shared notebook, saving your own copy to Drive, and finding your way around the Colab interface. Come back here once your copy is open and the setup cell has run.
+> **Before you begin.** If this is your first time in Google Colab, read [Getting Started with Google Colab]({{ '/guides/getting-started-colab/' | relative_url }}) first. It covers opening the shared notebook, saving your own copy to Drive, and finding your way around the Colab interface. Come back here once your copy is open and the setup cell has run.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/19KKoM1SPAnatIGxEffiK24M9scgGGzDd)
 
@@ -32,7 +32,7 @@ An ordinary pendulum returns to the bottom on its own, because gravity pulls it 
 
 Nothing can hold the pole from above, and the hinge applies no torque. Consequently, the only way to recover a falling pole is to moving the cart. You already know the manoeuvre, because it is what your hand does when you balance a broom on your palm. The broom leans forward and your hand moves forward.
 
-![Schematic of the cart and pole, showing cart position, cart velocity, pole angle and angular velocity, and the two possible pushes](/practicals/inverted_pendulum_neuron_control/assets/cartpole_system.svg)
+![Schematic of the cart and pole, showing cart position, cart velocity, pole angle and angular velocity, and the two possible pushes]({{ '/practicals/inverted_pendulum_neuron_control/assets/cartpole_system.svg' | relative_url }})
 
 At every instant the simulation reports four measurements of the system.
 
@@ -194,7 +194,7 @@ The simulator will call this function on every step of the run, so the name matt
 
 The rule you wrote is an artificial neuron, and the diagram below is the standard way of drawing it.
 
-![Diagram of a single artificial neuron: four inputs, four weights, a bias, a summation, and a step function producing the action](/practicals/inverted_pendulum_neuron_control/assets/neuron.svg)
+![Diagram of a single artificial neuron: four inputs, four weights, a bias, a summation, and a step function producing the action]({{ '/practicals/inverted_pendulum_neuron_control/assets/neuron.svg' | relative_url }})
 
 Every part of the diagram corresponds to something you typed.
 
@@ -237,7 +237,7 @@ show(my_weights, my_bias)
 
 The run lasts about ten steps. All four products are zero, the total is zero, and zero is not greater than zero, so the neuron pushes left at every step without ever looking at the pole.
 
-![A cart-pole run in which the pole falls immediately](/practicals/inverted_pendulum_neuron_control/assets/cartpole_falling.gif)
+![A cart-pole run in which the pole falls immediately]({{ '/practicals/inverted_pendulum_neuron_control/assets/cartpole_falling.gif' | relative_url }})
 
 Now calibrate. Change one weight, run the cell again, and read the number of steps. Change one number at a time, because changing several at once tells you nothing about which change helped.
 
