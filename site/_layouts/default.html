@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <meta name="description" content="{{ site.description }}">
+  <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+</head>
+<body>
+  <header class="site-header">
+    <a class="site-title" href="{{ '/' | relative_url }}">MEEN41490 <span>· AI in Engineering</span></a>
+  </header>
+
+  <main class="content">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <p>MEEN41490 — AI in Engineering · UCD School of Mechanical &amp; Materials Engineering</p>
+  </footer>
+
+  <script>
+    document.querySelectorAll('pre').forEach(function (block) {
+      block.addEventListener('copy', function (e) { e.preventDefault(); });
+      block.addEventListener('contextmenu', function (e) { e.preventDefault(); });
+    });
+  </script>
+</body>
+</html>

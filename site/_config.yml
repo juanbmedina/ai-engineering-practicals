@@ -1,0 +1,16 @@
+title: "AI in Engineering — MEEN41490"
+description: "Practical material for MEEN41490, AI in Engineering, UCD."
+baseurl: ""
+url: ""
+
+markdown: kramdown
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - Dockerfile
+  - vendor
+  - README.md

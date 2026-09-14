@@ -1,0 +1,6 @@
+# Ordered list of practical sessions shown on the homepage.
+# Add one entry per practical as it's built — folders are created on demand,
+# not pre-declared (see claude.md, section 5).
+- week: 2
+  title: "Inverted pendulum: single-neuron control"
+  path: /practicals/inverted_pendulum_neuron_control/
