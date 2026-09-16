@@ -1,9 +1,9 @@
 ---
 layout: default
-title: "Practical 2 — IA is not magic"
+title: "Practical 2 — AI as a mathematical model"
 ---
 
-# Practical 2 — IA is not magic
+# Practical 2 — AI as a mathematical model
 
 <!-- <p class="subtitle"><strong>MEEN41490 — AI in Engineering</strong></p> -->
 
@@ -32,9 +32,11 @@ An ordinary pendulum returns to the bottom on its own, because gravity pulls it 
 
 Nothing can hold the pole from above, and the hinge applies no torque. Consequently, the only way to recover a falling pole is to moving the cart. You already know the manoeuvre, because it is what your hand does when you balance a broom on your palm. The broom leans forward and your hand moves forward.
 
-![Schematic of the cart and pole, showing cart position, cart velocity, pole angle and angular velocity, and the two possible pushes]({{ '/practicals/inverted_pendulum_neuron_control/assets/cartpole_system.svg' | relative_url }})
+![Broom balancing]({{ '/practicals/inverted_pendulum_neuron_control/assets/broom_balance.png' | relative_url }}){: width="50%"}
 
-At every instant the simulation reports four measurements of the system.
+At every instant the simulation reports four measurements of the system according with the following figure representation.
+
+![Schematic of the cart and pole, showing cart position, cart velocity, pole angle and angular velocity, and the two possible pushes]({{ '/practicals/inverted_pendulum_neuron_control/assets/cartpole_system.svg' | relative_url }})
 
 | Measurement | Meaning | Sign |
 |---|---|---|
@@ -49,11 +51,11 @@ The run ends under three conditions. The pole passes 12 degrees from vertical, o
 
 ## Part 1 — The rule that decides the push
 
-Engineers have solved this problem for a long time, and several methods work. Classical control theory offers the PID controller, which reacts to the error, to its accumulated history, and to its rate of change. It also offers the linear quadratic regulator (LQR), which derives the best possible reaction from a model of the physics. Reinforcement learning takes a different route, because it discards the model of the physics and improves a controller from repeated attempts.
+Engineers have solved this problem for a long time, and several methods work. Classical control theory offers the PID controller, which reacts to the error, to its accumulated history, and to its rate of change. It also offers the linear quadratic regulator (LQR), which derives the best possible reaction from a physics model. Model-free reinforcement learning takes a different route, because it discards the physics model and improves a controller from repeated attempts.
 
 Those methods disagree about how to obtain the controller. However, they agree about its shape. Each one produces a single number from the measurements, and the sign of that number selects the action.
 
-That is the shape you will build. You take the four measurements, you multiply each of them by a number of your choice, and you add the four products together. You add one final number, called the bias, which shifts the result up or down. The sum is a single value, and you compare it with zero.
+That is the shape you will build. You take the four measurements, you multiply each of them by a number of your choice, and you add the four products together. This weighted sum is a linear combination of the four measurements. You add one final number, called the bias, which shifts the result up or down. The sum is a single value, and you compare it with zero.
 
 ```
 u = w1 * cart_position
@@ -70,6 +72,16 @@ The four numbers `w1` to `w4` are called weights, and each one states how much i
 Before you write any code, make one prediction. Suppose the pole angle is the only measurement different from zero, and the pole leans to the right. In that situation, the cart must move in one direction to push the pole back upright. Decide which direction that is, then decide whether the weight on the pole angle must be positive or negative to produce that direction.
 
 Note this: rule contains no equations of motion, no mass, no length of the pole, and no gravity. It knows nothing about pendulums. Four multiplications and one comparison decide every push, and the entire behaviour of the system hides in the five numbers.
+
+### The rule is a neuron
+
+This rule is an artificial neuron, the basic unit of every neural network.
+The figure below draws the same rule in the standard form.
+
+![Diagram of a single artificial neuron: four inputs, four weights, a bias, a summation, and a step function producing the action]({{ '/practicals/inverted_pendulum_neuron_control/assets/neuron.svg' | relative_url }})
+
+For now, read the figure as a picture of the equation above.
+Part 4 returns to it after you have written the rule in Python.
 
 ## Part 2 — Introduction to Python
 
@@ -131,6 +143,10 @@ The brackets around the sum let one instruction span several lines, and they kee
 
 The cell prints `0.31`. The value is positive, and the rule therefore pushes right. The pole leans right and falls right, so pushing right moves the cart under the pole. The rule agrees with the physics in this instant.
 
+> **The measurements are normalized values.** The four measurements do not live on the same scale — the cart position moves within roughly ±2.4 m, while the pole angle stays within a fraction of a radian. A weight that works for the angle would barely register on the position, and vice versa. The notebook's `decide` function accounts for this: it divides each measurement by a typical size for that measurement (`measurements / SCALE`) before multiplying by the weights, so all four land in a comparable range and a single weight range makes sense across all of them.
+
+> **Indentation.** Python uses indentation, not brackets, to mark which lines belong inside an `if`, an `else`, or a function. The lines below use four spaces, and pressing **Tab** produces them for you. A wrong number of spaces changes the meaning of the code, or breaks the cell entirely.
+
 ### 3.4 The decision
 
 A comparison such as `total > 0` produces an answer of true or false, and `if` runs a block of code only when the answer is true. The `else` block runs in the opposite case.
@@ -188,15 +204,16 @@ The names `measurements`, `weights` and `bias` are the arguments of the function
 
 The last line calls the function with the same numbers as before, and it prints `1`. Your function reproduces the result you computed by hand in the previous cells.
 
+This is the payoff of writing `def controller(...)` once. The lines that compute `total` and decide the action now live in one place, and calling `controller(...)` runs them again on whatever measurements you pass in. Without the function, running this calculation 50 times a second would mean copying and pasting those lines 50 times, once per call, and editing all of them if you ever fixed a mistake. With the function, you write the calculation once and call it as many times as you need.
+
 The simulator will call this function on every step of the run, so the name matters. Keep it as `controller`, because the helper functions from the setup cell look for exactly that name.
 
-## Part 3 — The rule as a neuron
+## Part 4 — Your code is the neuron
 
-The rule you wrote is an artificial neuron, and the diagram below is the standard way of drawing it.
+Part 2 showed the rule drawn as an artificial neuron. You have now written that same rule in Python. The diagram is repeated below, and every part of it corresponds to something you typed.
 
 ![Diagram of a single artificial neuron: four inputs, four weights, a bias, a summation, and a step function producing the action]({{ '/practicals/inverted_pendulum_neuron_control/assets/neuron.svg' | relative_url }})
 
-Every part of the diagram corresponds to something you typed.
 
 | In the diagram | In your code | What it does |
 |---|---|---|
