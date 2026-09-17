@@ -20,7 +20,7 @@ Three facts about that arrangement matter today.
 1. Open **[colab.research.google.com](https://colab.research.google.com/)** and sign in with a Google account.
 2. In the *Open notebook* window, click **New notebook** at the top left.
 ![The Open notebook window in Colab, with the New notebook button highlighted at the top left]({{ '/guides/getting-started-colab/assets/p13.png' | relative_url }})
-3. Click the title `Untitled0.ipynb` and rename the file to `MEEN41490_P2_YourName`.
+3. Click the title `Untitled0.ipynb` and rename the file to `MEEN41490_P0_YourName`.
 ![Renaming the notebook title in Colab]({{ '/guides/getting-started-colab/assets/p14.png' | relative_url }})
 
 Your notebook now lives in your Google Drive account, and it saves itself automatically as you type. Therefore, you can reopen it from any computer, share it with a teammate, and recover an earlier version through **File → Revision history**. The entry **File → Locate in Drive** shows you where the file sits.
