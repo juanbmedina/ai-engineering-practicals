@@ -22,7 +22,7 @@ The pole in that animation stays up because a trained model controls the system.
 
 > **Before you begin.** If this is your first time in Google Colab, read [Getting Started with Google Colab]({{ '/guides/getting-started-colab/' | relative_url }}) first. It covers opening the shared notebook, saving your own copy to Drive, and finding your way around the Colab interface. Come back here once your copy is open and the setup cell has run.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/19KKoM1SPAnatIGxEffiK24M9scgGGzDd)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1PVZ1uhKLnmu_xiPyjhFJVha2imWPVBNT#scrollTo=qjL2PAcLT_3p)
 
 ## Part 0 — The problem
 
@@ -87,7 +87,7 @@ Part 4 returns to it after you have written the rule in Python.
 
 Each subsection below matches one cell in the notebook. Type the code instead of pasting it, because typing forces you to read every character.
 
-### 3.1 A variable
+### 2.1 A variable
 
 A variable is a name attached to a value that the machine holds in memory. You create one with the `=` sign, and the name goes on the left. The `print` function displays a value on the screen.
 
@@ -100,7 +100,7 @@ Run the cell with **Shift + Enter**. The number 0.05 is the tilt of the pole in 
 
 Names in Python may contain letters, numbers and underscores, and they carry no meaning for the machine. The name `pole_angle` is exactly as valid as the name `q7`, and the first name is better because the next reader understands it immediately.
 
-### 3.2 Arithmetic
+### 2.2 Arithmetic
 
 A variable holds a value, so it can take part in a calculation. The result of that calculation is a value like any other, and you can store it under a new name.
 
@@ -114,7 +114,7 @@ The symbols `+`, `-`, `*` and `/` perform the four arithmetic operations, and `*
 
 This cell runs correctly only because the previous cell ran before it. The name `pole_angle` exists in memory because you created it there.
 
-### 3.3 The whole sum
+### 2.3 The sum
 
 The rule needs four measurements, four weights, and the bias. The following cell contains one instant of the simulation — the cart sits slightly right of centre and moves left, and the pole leans right and falls right.
 
@@ -147,7 +147,7 @@ The cell prints `0.31`. The value is positive, and the rule therefore pushes rig
 
 > **Indentation.** Python uses indentation, not brackets, to mark which lines belong inside an `if`, an `else`, or a function. The lines below use four spaces, and pressing **Tab** produces them for you. A wrong number of spaces changes the meaning of the code, or breaks the cell entirely.
 
-### 3.4 The decision
+### 2.4 The decision
 
 A comparison such as `total > 0` produces an answer of true or false, and `if` runs a block of code only when the answer is true. The `else` block runs in the opposite case.
 
@@ -164,7 +164,7 @@ The four spaces at the start of the indented lines are part of the language. Pyt
 
 The simulator expects `1` for a push to the right and `0` for a push to the left. Your rule now converts four measurements into one legal command.
 
-### 3.5 Lists
+### 2.5 Lists
 
 Writing eight separate names works once, however the simulator hands you the four measurements together, and you need them under a single name. A list is an ordered collection of values stored under one name, and square brackets define it.
 
@@ -180,7 +180,7 @@ Square brackets after the name select one element. Python counts from zero, so `
 
 The order of the list is a convention that you must respect. Position, velocity, angle, angular velocity — the simulator always uses that order, and your weights must follow it.
 
-### 3.6 A function
+### 2.6 A function
 
 You need the same calculation 50 times per second, and copying it 50 times is not an option. A function is a named block of code that accepts values, performs its work, and returns a result. You define it once with `def`, and you use it as often as you need.
 
@@ -208,7 +208,7 @@ This is the payoff of writing `def controller(...)` once. The lines that compute
 
 The simulator will call this function on every step of the run, so the name matters. Keep it as `controller`, because the helper functions from the setup cell look for exactly that name.
 
-## Part 4 — Your code is the neuron
+## Part 3 — Your code is the neuron
 
 Part 2 showed the rule drawn as an artificial neuron. You have now written that same rule in Python. The diagram is repeated below, and every part of it corresponds to something you typed.
 

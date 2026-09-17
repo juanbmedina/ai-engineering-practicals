@@ -55,25 +55,19 @@ Your copy now lives in your Google Drive account. Therefore, you can reopen it f
 
 Two keyboard shortcuts save time. **Shift + Enter** runs the current cell and moves the selection to the next one, whereas **Ctrl + Enter**, or **Cmd + Enter** on Mac, runs the current cell and leaves the selection in place.
 
-## Run the setup cell
+## Try it: run a cell yourself
 
-Run the first code cell of the notebook now, before you read any further. It installs the simulator, and it defines the helper functions used later in the session. The first run takes about thirty seconds, because Colab allocates your virtual machine at that moment and downloads the simulator. Every later run is immediate.
+Before moving on, run one small cell of your own. Click **+ Code** to add a new cell and type the following two lines. Then run the cell with **Shift + Enter**.
 
-The cell prints `Ready.` when it finishes.
-
-## One rule about order
-
-All cells in a notebook share one memory, and they fill that memory in the order in which you run them, not in the order in which they appear on the screen. Editing the text of a cell changes nothing by itself, because code takes effect only at the moment you execute it.
-
-> **Watch the number in square brackets beside each code cell.** That counter records the order in which the cells actually ran. `[*]` means that a cell is still running, and empty brackets mean that a cell has never run in this session. When a notebook behaves strangely, that column usually explains the reason.
-
-You will meet this behaviour today as an error, and the error looks like the following.
-
-```
-NameError: name 'controller' is not defined
+```python
+wheels = 4
+print("Total wheels on the robot:", wheels * 2)
 ```
 
-Read that line as an ordinary sentence. You used a name that the machine was never given. The cure is **Runtime → Run all**, which rebuilds the whole notebook from the top.
+The number in square brackets to the left of the cell changes from empty to a number, and the printed line appears directly underneath. That number and that output are the two things to check every time you run a cell.
+
+Now edit the cell so that `wheels = 6` instead of `4`, and run it again. The printed result updates, because you executed the change; simply typing the new number would not have been enough.
+
 
 | Runtime menu option | Use it when |
 |---|---|
