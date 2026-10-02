@@ -31,6 +31,18 @@ docs/
 The site is a Jekyll site built and served from a Docker container, with the
 `docs/` folder bind-mounted so edits trigger auto-regeneration.
 
+The quickest way is the helper script at the repository root (Docker Desktop
+must be running):
+
+```bash
+./preview_site.sh start     # build if needed, start, and open the browser
+./preview_site.sh logs      # follow the Jekyll output
+./preview_site.sh stop      # stop the site
+./preview_site.sh rebuild   # after changing the Gemfile or the Dockerfile
+```
+
+The equivalent manual commands are:
+
 ```bash
 cd docs
 docker build -t ia-engineering-practicals-site .

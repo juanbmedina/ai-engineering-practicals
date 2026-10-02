@@ -193,3 +193,20 @@ hr {
   h1 { font-size: 1.55rem; }
   table { display: block; overflow-x: auto; white-space: nowrap; }
 }
+
+/* Collapsible implementations ("Show the implementation") */
+details {
+  margin: 0 0 1.3rem;
+  padding: 0.55rem 1rem;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #ffffff;
+}
+
+details > summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent);
+}
+
+details[open] > summary { margin-bottom: 0.8rem; }

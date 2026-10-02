@@ -14,6 +14,6 @@ a walkthrough page with a Google Colab notebook.
 
 <ul>
 {% for p in site.data.practicals %}
-  <li><a href="{{ p.path | relative_url }}">Week {{ p.week }}: {{ p.title }}</a></li>
+  <li><a href="{{ p.path | relative_url }}">Practice {{ p.practice }}: {{ p.title }}</a></li>
 {% endfor %}
 </ul>
