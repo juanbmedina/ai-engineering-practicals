@@ -1,0 +1,5 @@
+# Ordered list of demonstrations shown on the homepage.
+# A demonstration is a ready-made app that students run in Colab without
+# writing code. Add one entry per demonstration as it is published.
+- title: "Sentiment analysis and word clouds with a large language model"
+  path: /demos/sentiment-wordcloud/

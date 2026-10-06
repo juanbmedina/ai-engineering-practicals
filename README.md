@@ -17,8 +17,12 @@ new practical.
 docs/
 ├── index.md                # homepage, lists practicals from _data/practicals.yml
 ├── _data/practicals.yml    # ordered {week, title, path} entries shown on the homepage
+├── _data/demos.yml         # ordered {title, path} demonstrations shown on the homepage
 ├── guides/                 # cross-cutting how-tos (not tied to one week)
-│   └── getting-started-colab/
+│   ├── getting-started-colab/
+│   └── api-keys-groq-gemini/
+├── demos/                  # one page per ready-made demonstration app
+│   └── sentiment-wordcloud/
 └── practicals/              # one self-contained folder per practical
     └── inverted_pendulum_neuron_control/
         ├── index.md
