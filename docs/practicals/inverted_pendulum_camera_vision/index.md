@@ -303,7 +303,7 @@ The function `compare_sensors` plots the four measurements of the simulator next
 
 ## You have finished the practical
 
-**Well done. Once you complete 4.3 and register your result in the class form, you have finished every required task of Practical 3.** Section 4.4 and the advanced levels below are optional. If you want to continue, follow the notebook into the advanced levels.
+**Well done! You have finished every required task of Practical 3.** Section 4.4 and the advanced levels below are optional. If you want to continue, follow the notebook into the advanced levels.
 
 ## Beyond the practical — Optional advanced levels with degraded snapshots
 
