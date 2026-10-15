@@ -1,0 +1,61 @@
+month,building,building_type,floor_area_m2,electricity_consumption_kwh,reading_type
+2025-01,Apartment Block A,residential,1900,9445,measured
+2025-01,Apartment Block B,residential,1300,5929,measured
+2025-01,Primary School,education,2100,13883,measured
+2025-01,Corner Shop,retail,450,8890,measured
+2025-01,Community Centre,community,800,3771,measured
+2025-02,Apartment Block A,residential,1900,8260,measured
+2025-02,Apartment Block B,residential,1300,5645,measured
+2025-02,Primary School,education,2100,11429,measured
+2025-02,Corner Shop,retail,450,8751,measured
+2025-02,Community Centre,community,800,3376,measured
+2025-03,Apartment Block A,residential,1900,7788,measured
+2025-03,Apartment Block B,residential,1300,5108,measured
+2025-03,Primary School,education,2100,6293,measured
+2025-03,Corner Shop,retail,450,8302,measured
+2025-03,Community Centre,community,800,3299,measured
+2025-04,Apartment Block A,residential,1900,7071,measured
+2025-04,Apartment Block B,residential,1300,4542,measured
+2025-04,Primary School,education,2100,5885,measured
+2025-04,Corner Shop,retail,450,8418,measured
+2025-04,Community Centre,community,800,2768,measured
+2025-05,Apartment Block A,residential,1900,6553,measured
+2025-05,Apartment Block B,residential,1300,4536,measured
+2025-05,Primary School,education,2100,5631,measured
+2025-05,Corner Shop,retail,450,8934,measured
+2025-05,Community Centre,community,800,2595,measured
+2025-06,Apartment Block A,residential,1900,6373,measured
+2025-06,Apartment Block B,residential,1300,4161,measured
+2025-06,Primary School,education,2100,5263,measured
+2025-06,Corner Shop,retail,450,9435,measured
+2025-06,Community Centre,community,800,2659,measured
+2025-07,Apartment Block A,residential,1900,6541,measured
+2025-07,Apartment Block B,residential,1300,4370,measured
+2025-07,Primary School,education,2100,1819,measured
+2025-07,Corner Shop,retail,450,9046,measured
+2025-07,Community Centre,community,800,2628,measured
+2025-08,Apartment Block A,residential,1900,6545,measured
+2025-08,Apartment Block B,residential,1300,4281,measured
+2025-08,Primary School,education,2100,1925,measured
+2025-08,Corner Shop,retail,450,9348,measured
+2025-08,Community Centre,community,800,2517,measured
+2025-09,Apartment Block A,residential,1900,6721,measured
+2025-09,Apartment Block B,residential,1300,4411,measured
+2025-09,Primary School,education,2100,5753,measured
+2025-09,Corner Shop,retail,450,8595,measured
+2025-09,Community Centre,community,800,2717,measured
+2025-10,Apartment Block A,residential,1900,7486,measured
+2025-10,Apartment Block B,residential,1300,4877,measured
+2025-10,Primary School,education,2100,6500,measured
+2025-10,Corner Shop,retail,450,8858,estimated
+2025-10,Community Centre,community,800,3141,measured
+2025-11,Apartment Block A,residential,1900,8023,measured
+2025-11,Apartment Block B,residential,1300,5720,measured
+2025-11,Primary School,education,2100,6699,measured
+2025-11,Corner Shop,retail,450,8858,estimated
+2025-11,Community Centre,community,800,3370,measured
+2025-12,Apartment Block A,residential,1900,9228,measured
+2025-12,Apartment Block B,residential,1300,6281,measured
+2025-12,Primary School,education,2100,7779,measured
+2025-12,Corner Shop,retail,450,8858,estimated
+2025-12,Community Centre,community,800,3649,measured

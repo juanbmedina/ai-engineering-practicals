@@ -1,0 +1,12 @@
+SYNTHETIC SAMPLE DOCUMENT - created for teaching purposes only.
+
+Ashgrove Energy Community - note of the coordinator: metering campaign 2025
+Date: 15 January 2026
+
+- Five buildings of Ashgrove plan to form an energy community. They will share the electricity of solar panels on their roofs and sell the surplus to the grid.
+- Smart meters measured the monthly electricity use of each building in 2025. These data will size the shared solar panels and set the rules for sharing energy and profit.
+- The heat pump of the Primary School failed in January and February. A technician repaired it on 20 February.
+- The Corner Shop received a new smart meter on 14 October. The readings for October, November and December are estimates from the supplier.
+- Apartment Blocks A and B and the Community Centre operated normally throughout the year.
+- The school is closed in July and August.
+- The feasibility study assumes an average of 5,500 kWh per building per month.

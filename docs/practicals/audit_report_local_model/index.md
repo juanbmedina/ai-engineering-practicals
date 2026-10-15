@@ -7,7 +7,7 @@ title: "Practical 4 — Report generation using LLMs"
 
 ## How this session works
 
-**This practical session has two sections, and both work with fictional data about an energy community.** The data describe the electricity use of five buildings of a neighbourhood that plans to produce and share solar energy. In Section 1, you run a demonstration that sends a summary of these data to a Large Language Model (LLM) on the servers of Groq or Google. That LLM writes the findings of an audit report. In Section 2, you download a small pretrained LLM, run it inside your own notebook, and send it exactly the same prompt. Finally, you compare the two reports fact by fact.
+**This practical session has two sections, and both work with fictional data about an energy community.** The data describe the electricity use of five buildings of a neighbourhood that plans to produce and share solar energy. In Section 1, you run a demonstration that sends a summary of these data to a Large Language Model (LLM) on the servers of Groq or Google. That LLM writes the findings of an audit report. In Section 2, you download a small pretrained LLM, run it inside your own notebook, and send it exactly the same prompt. In two advanced tasks, you can then compare the two reports fact by fact.
 
 Both sections use the same four data files, so the only difference between the two reports is the model that wrote them.
 
@@ -30,13 +30,35 @@ The coordinator of the future community now asks for an audit of these data, bec
 
 The figure tells the story in two parts. Part 1 shows the five buildings, their smart meters and the solar panels that the community plans to share. Part 2 places the events of 2025 on a timeline and links each file of the session to the moment it describes.
 
-## The data of the session
+## The data for the session
 
-Download [energy_community_data.zip](https://drive.google.com/uc?export=download&id=1YW1ahh5YLnrzq9unNS5U-9WpLcCz_r_6) and unzip it on your computer. On a Mac, double-click the file. On Windows, right-click the file and choose **Extract All**. The unzipped folder holds the four files below, and you upload them in both sections. Every name, value, date and document in these files is invented for teaching.
+Download the four files of the session and save them in the same folder on your computer. You upload them in both sections. Every name, value, date and document in these files is invented for teaching.
+
+- [`neighbourhood_electricity_2025.csv`]({{ '/practicals/audit_report_local_model/assets/data/neighbourhood_electricity_2025.csv' | relative_url }}){:download=""} — the electricity data
+- [`maintenance_report_primary_school.pdf`]({{ '/practicals/audit_report_local_model/assets/data/maintenance_report_primary_school.pdf' | relative_url }}){:download=""} — the maintenance report
+- [`supplier_high_consumption_notice.html`]({{ '/practicals/audit_report_local_model/assets/data/supplier_high_consumption_notice.html' | relative_url }}){:download=""} — the supplier alert
+- [`community_coordinator_note.txt`]({{ '/practicals/audit_report_local_model/assets/data/community_coordinator_note.txt' | relative_url }}){:download=""} — the coordinator's note
 
 ### The electricity data — `neighbourhood_electricity_2025.csv`
 
-This table holds the 60 monthly readings of the metering campaign, with one row for each building and each month of 2025. The readings use the kilowatt-hour (kWh) as their unit. One kWh is the energy that a 1 kW appliance uses in one hour. Each row has six columns.
+This table holds the 60 monthly readings of the metering campaign, with one row for each building and each month of 2025. The readings use the kilowatt-hour (kWh) as their unit. One kWh is the energy that a 1 kW appliance uses in one hour.
+
+The table below shows the first ten rows of the file, which cover January and February 2025.
+
+| `month` | `building` | `building_type` | `floor_area_m2` | `electricity_consumption_kwh` | `reading_type` |
+|---|---|---|---|---|---|
+| 2025-01 | Apartment Block A | residential | 1900 | 9445 | measured |
+| 2025-01 | Apartment Block B | residential | 1300 | 5929 | measured |
+| 2025-01 | Primary School | education | 2100 | 13883 | measured |
+| 2025-01 | Corner Shop | retail | 450 | 8890 | measured |
+| 2025-01 | Community Centre | community | 800 | 3771 | measured |
+| 2025-02 | Apartment Block A | residential | 1900 | 8260 | measured |
+| 2025-02 | Apartment Block B | residential | 1300 | 5645 | measured |
+| 2025-02 | Primary School | education | 2100 | 11429 | measured |
+| 2025-02 | Corner Shop | retail | 450 | 8751 | measured |
+| 2025-02 | Community Centre | community | 800 | 3376 | measured |
+
+Each row has six columns.
 
 | Column | Meaning | Example from the first row |
 |---|---|---|
@@ -97,7 +119,7 @@ Fill the boxes of the app with the four files and the settings of the table belo
 
 Then, click **Generate Report**. The charts and the findings of the LLM appear in the app, and the PDF report is ready to download. If an upload fails, click the sample row under the inputs, which loads the same four files and settings.
 
-> **Keep your PDF report.** Section 2 compares section 5 of this report, "Audit Findings (AI Inference)", with the reply of a small model. Download the report and keep it open.
+> **Keep your PDF report.** The first advanced task of Section 2 compares section 5 of this report, "Audit Findings (AI Inference)", with the reply of a small model. Download the report and keep it open.
 
 ---
 
@@ -109,7 +131,7 @@ In Section 1, the LLM ran on the servers of Groq or Google, and it returned the 
 
 In this section, you download a small pretrained LLM and run it inside your own Colab session. A pretrained model is a model that somebody else has already trained. You only use it. That is, you give it an input and you read its output. The model of today is Qwen3-0.6B, which the Qwen team of Alibaba published openly on the Hugging Face Hub.
 
-You will build the prompt of the demonstration from the same four files, and you will send it to this small model. Then, you will compare its findings with the findings of your PDF report from Section 1.
+You will build the prompt of the demonstration from the same four files, and you will send it to this small model. Then, in two advanced tasks, you will compare its findings with your PDF report from Section 1 and test whether the model reads the documents.
 
 | | Section 1 — Demonstration | Section 2 — Practice |
 |---|---|---|
@@ -121,7 +143,7 @@ You will build the prompt of the demonstration from the same four files, and you
 
 > **How to use this section.** Work in the notebook, where every cell marked `# YOUR CODE HERE` is yours to fill. The comments of each cell tell you what to write and what you should see. **Try it yourself first.** If you are stuck, come back to the matching part of this page and click **Show the implementation**.
 
-> **Before you start.** Open the notebook, save your own copy to Drive, and rename it to `MEEN41490_P4_YourName`. Keep the four unzipped files at hand, because Part 1 asks you to upload them.
+> **Before you start.** Open the notebook, save your own copy to Drive, and rename it to `MEEN41490_P4_YourName`. Keep the four downloaded files at hand, because Part 1 asks you to upload them.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1vVRaj7OE7BOBh7VM_4Pu8dSpPon-np9X)
 
@@ -150,7 +172,7 @@ Run the setup cell, which installs one small library and prepares the functions 
 A Colab notebook runs on a virtual machine in the cloud, not on your computer. Therefore, the notebook cannot read the files in your Downloads folder. Instead, you upload the files to the storage of the virtual machine, which Colab shows in the **Files** panel.
 
 1. Click the **folder icon** in the left sidebar of Colab. The **Files** panel opens, as in the picture below.
-2. Drag the four unzipped files from your computer onto the Files panel. Alternatively, click the **upload icon**, the first icon at the top of the panel, with an arrow that points up. Then, select the four files in the window that opens.
+2. Drag the four downloaded files from your computer onto the Files panel. Alternatively, click the **upload icon**, the first icon at the top of the panel, with an arrow that points up. Then, select the four files in the window that opens.
 3. Colab warns that uploaded files disappear when the session ends. Click **OK**.
 4. Wait until the four file names appear in the panel. The folder `sample_data` belongs to Colab, and it has nothing to do with this practical.
 
@@ -275,20 +297,6 @@ answer = ask_model(model, prompt)
 
 </details>
 
-### Part 4 — Comparing the two models
-
-Open your PDF report from Section 1 at section 5, "Audit Findings (AI Inference)". Then, compare it with the reply of Qwen3-0.6B. The checklist cell lists six facts that the documents and the statistics support, plus one check for invented facts.
-
-For each fact and each model, replace `None` by `True` or `False`. A fact counts as `True` only if the findings state it **correctly**. A fact with a wrong number counts as `False`, and so does a fact that the model only implies. The last row asks the reverse question, so mark it `True` only if the findings contain no invented fact and no wrong number.
-
-This part has no implementation on this page, because the marks depend on the replies that you received. The function `show_checklist(checklist)` draws your marks as a table and counts the facts of each model.
-
-#### 4.1 Questions for the comparison
-
-1. Which model stated more facts correctly? Which model invented facts or numbers?
-2. Both models explain why the mean exceeds the baseline of the feasibility study. Look at Figure 2 of your demo report, which shows the average of each building. Does the chart support the explanation of each model?
-3. Did either model notice that the coordinator's note and the maintenance report give different baselines?
-
 ### You have finished the practical
 
 Before you leave, discuss these three questions with your neighbour.
@@ -297,9 +305,25 @@ Before you leave, discuss these three questions with your neighbour.
 2. In Section 1, your statistics and documents travelled to the servers of Groq or Google. In Section 2, they stayed in your Colab session. When would a company prefer the second option, even with a weaker model?
 3. Which of the two reports would you sign as the engineer responsible? What would you check first?
 
-### Beyond the practical — Testing whether the model reads the documents
+If you have time left, continue with the two advanced tasks below.
 
-A useful test of any AI system removes part of the input and checks how the output changes. Without the three documents, the prompt holds only four numbers. Consequently, any mention of a fault, of a building or of a date in the reply is invented. This task is optional, and the notebook places it after the end of the practical.
+### Advanced 1 — Comparing the two models
+
+Open your PDF report from Section 1 at section 5, "Audit Findings (AI Inference)". Then, compare it with the reply of Qwen3-0.6B. The checklist cell lists six facts that the documents and the statistics support, plus one check for invented facts.
+
+For each fact and each model, replace `None` by `True` or `False`. A fact counts as `True` only if the findings state it **correctly**. A fact with a wrong number counts as `False`, and so does a fact that the model only implies. The last row asks the reverse question, so mark it `True` only if the findings contain no invented fact and no wrong number.
+
+This task has no implementation on this page, because the marks depend on the replies that you received. The function `show_checklist(checklist)` draws your marks as a table and counts the facts of each model.
+
+#### Questions for the comparison
+
+1. Which model stated more facts correctly? Which model invented facts or numbers?
+2. Both models explain why the mean exceeds the baseline of the feasibility study. Look at Figure 2 of your demo report, which shows the average of each building. Does the chart support the explanation of each model?
+3. Did either model notice that the coordinator's note and the maintenance report give different baselines?
+
+### Advanced 2 — Testing whether the model reads the documents
+
+A useful test of any AI system removes part of the input and checks how the output changes. Without the three documents, the prompt holds only four numbers. Consequently, any mention of a fault, of a building or of a date in the reply is invented.
 
 <details markdown="1">
 <summary>Show the implementation</summary>
