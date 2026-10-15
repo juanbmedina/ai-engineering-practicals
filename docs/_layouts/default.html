@@ -25,6 +25,15 @@
       block.addEventListener('copy', function (e) { e.preventDefault(); });
       block.addEventListener('contextmenu', function (e) { e.preventDefault(); });
     });
+
+    // Open links to other websites (Colab, Drive, Hugging Face...) in a new tab.
+    // Links between pages of this site keep opening in the same tab.
+    document.querySelectorAll('a[href^="http"]').forEach(function (link) {
+      if (link.hostname !== window.location.hostname) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+      }
+    });
   </script>
 </body>
 </html>

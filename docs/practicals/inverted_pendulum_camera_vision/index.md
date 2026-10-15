@@ -28,7 +28,7 @@ The red squares in the animation mark the two points that your code finds in eac
 
 > **Before you begin.** Open the notebook, save your own copy to Drive, and rename it to `MEEN41490_P3_YourName`. If you need a reminder of these steps, see [Getting Started with Google Colab]({{ '/guides/getting-started-colab/' | relative_url }}).
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://drive.google.com/file/d/1RUWvuuhKjnhqFDpl_Bvi_g8Wbj_w9j8J/view?usp=sharing)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1RUWvuuhKjnhqFDpl_Bvi_g8Wbj_w9j8J)
 
 ## Part 0 — How a computer represents an image
 

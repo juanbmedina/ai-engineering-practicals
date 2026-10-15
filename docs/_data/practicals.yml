@@ -7,3 +7,6 @@
 - practice: 2
   title: "Data manipulation with images"
   path: /practicals/inverted_pendulum_camera_vision/
+- practice: 3
+  title: "Report generation using LLMs"
+  path: /practicals/audit_report_local_model/
