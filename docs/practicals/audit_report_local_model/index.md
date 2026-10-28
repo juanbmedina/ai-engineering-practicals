@@ -11,10 +11,10 @@ title: "Practical 4 — Report generation using LLMs"
 
 Both sections use the same four data files, so the only difference between the two reports is the model that wrote them.
 
-| Section | What you do | Notebook | Time |
-|---|---|---|---|
-| 1 — Demonstration | Generate an audit report with an LLM that runs on the servers of a provider | Multimodal Audit Report Generator | About 10 minutes |
-| 2 — Practice | Run a small LLM inside Colab on the same prompt, and compare the two reports | `MEEN41490_P4_Local_LLM_STUDENT` | About 25 minutes |
+| Section | What you do | Notebook |
+|---|---|---|
+| 1 — Demonstration | Generate an audit report with an LLM that runs on the servers of a provider | Multimodal Audit Report Generator |
+| 2 — Practice | Run a small LLM inside Colab on the same prompt, and compare the two reports | `MEEN41490_P4_Local_LLM_STUDENT` |
 
 ![Section 1 sends the prompt to the servers of a provider, whereas Section 2 runs a small model inside the Colab session]({{ '/practicals/audit_report_local_model/assets/where_the_model_runs.png' | relative_url }})
 

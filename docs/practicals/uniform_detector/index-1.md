@@ -1,18 +1,18 @@
 ---
 layout: default
-title: "Practical 5 — Training a small model: an overalls detector"
+title: "Practical 5 — Training a small Convolutional Neural Network for a Safety Detector"
 ---
 
-# Practical 5 — Training a small model: an overalls detector
+# Practical 5 — Training a small Convolutional Neural Network for a Safety Detector
 
 ## How this session works
 
 **This session has two sections, and both work on the same safety problem in a simulated car workshop.** In Section 1, you run the Safety Monitor, a demonstration app that watches a video of the workshop and reports who enters a restricted zone without the right overalls. The app finds the overalls with a mask, and you calibrate that mask by hand with four sliders. In Section 2, you build the same detector in a different way. Instead of choosing the range of the mask yourself, you give the computer crops of people with and without overalls, and the computer learns the decision from those examples. At the end, you plug your model into the Safety Monitor and run it on the same scenes and the same video.
 
-| Section | What you do | Notebook | Time |
-|---|---|---|---|
-| 1 — Demonstration | Run the Safety Monitor and calibrate the overalls mask with the sliders | Safety Monitor | About 15 minutes |
-| 2 — Practice | Train a small model that classifies the crops, then run it inside the Safety Monitor | `MEEN41490_P5_Overalls_Detector_STUDENT` | About 50 minutes |
+| Section | What you do | Notebook |
+|---|---|---|
+| 1 — Demonstration | Run the Safety Monitor and calibrate the overalls mask with the sliders | Safety Monitor |
+| 2 — Practice | Train a small model that classifies the crops, then run it inside the Safety Monitor | `MEEN41490_P5_Overalls_Detector_STUDENT` |
 
 In every practical so far, somebody else wrote the rule that the computer follows. In Practical 3, you wrote a mask by hand to find the pole in each snapshot. In Practical 4, you downloaded a pretrained language model and used it as it was. In Section 2 of this session, for the first time, you **train** a model. That is, you give the computer labelled examples, and the computer adjusts its own numbers until it separates the examples correctly.
 
@@ -161,14 +161,14 @@ The notebook defines a helper, `show_architecture(model)`, which draws any model
 
 ## The notebook of the practice
 
-The notebook has four parts. Parts 1 and 2 take about 10 minutes, and Part 3 is the challenge. Part 0 is this page, so read it before you open the notebook. Some cells of the notebook show only a title, e.g., "Helper functions". They hold the code that draws the figures and the tables. Run them like any other cell, and double-click the title if you want to read the code.
+The notebook has four parts, and Part 3 is the challenge. Part 0 is this page, so read it before you open the notebook. Some cells of the notebook show only a title, e.g., "Helper functions". They hold the code that draws the figures and the tables. Run them like any other cell, and double-click the title if you want to read the code.
 
-| Part | What you do | Time |
-|---|---|---|
-| 1 | Load the crops and measure the mask of the demonstration on the test set | About 4 minutes |
-| 2 | Meet the training loop and train a first model | About 6 minutes |
-| 3 | **The challenge.** Calibrate the architecture and the training until the model reaches the target | About 30 minutes |
-| 4 | Run YOLOv8 and your model together on the scenes and the three videos of the demonstration | About 5 minutes |
+| Part | What you do |
+|---|---|
+| 1 | Load the crops and measure the mask of the demonstration on the test set |
+| 2 | Meet the training loop and train a first model |
+| 3 | **The challenge.** Calibrate the architecture and the training until the model reaches the target |
+| 4 | Run YOLOv8 and your model together on the scenes and the three videos of the demonstration |
 
 > **How to use this page.** The notebook holds the code, and you run its cells in order. This page explains the ideas behind each part, so that you understand what every cell does before you run it. The challenge in Part 3 has no solution on this page, because that problem is yours to solve.
 

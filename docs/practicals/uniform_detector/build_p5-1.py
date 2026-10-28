@@ -1,4 +1,4 @@
-"""Build the notebook for Practical 5 (Training a small model: overalls detector).
+"""Build the notebook for Practical 5 (Training a small Convolutional Neural Network for a Safety Detector).
 
 Run:  python3 build_p5.py
 Writes: MEEN41490_P5_Overalls_Detector_STUDENT.ipynb
@@ -24,7 +24,7 @@ def code(text, title=None, hidden=False):
 
 # =========================================================================== intro
 md(r"""
-# Practical 5 — Training a small model: an overalls detector for the safety monitor
+# Practical 5 — Training a small Convolutional Neural Network for a Safety Detector
 
 **AI in Engineering (MEEN41490)**
 

@@ -11,5 +11,5 @@
   title: "Report generation using LLMs"
   path: /practicals/audit_report_local_model/
 - practice: 5
-  title: "Training a small model: an overalls detector"
+  title: "Training a small Convolutional Neural Network for a Safety Detector"
   path: /practicals/uniform_detector/

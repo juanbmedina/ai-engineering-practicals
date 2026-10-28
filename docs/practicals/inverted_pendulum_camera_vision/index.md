@@ -32,7 +32,7 @@ The red squares in the animation mark the two points that your code finds in eac
 
 ## Part 0 — How a computer represents an image
 
-Read this part before you open the notebook. It takes about five minutes, and every cell of the notebook relies on the ideas it introduces.
+Read this part before you open the notebook. Every cell of the notebook relies on the ideas it introduces.
 
 **A snapshot is an image.** Each snapshot of the simulation render is a digital image, like any image that you see on a computer screen. Therefore, everything in this part applies to any digital image, and not only to the snapshots of the simulator.
 

@@ -1,4 +1,4 @@
-# Practical 5 — Training a small model: an overalls detector (Fri 30 Oct 2026)
+# Practical 5 — Training a small Convolutional Neural Network for a Safety Detector (Fri 30 Oct 2026)
 
 Status: notebooks ready for review. Notebook restructured on 28 Oct (afternoon): Part 0 removed from the notebook (it lives on the page only), helper functions moved into hidden form cells, layer glosses at the first model, data-upload instructions at the start, Part 4.3 runs the model on the three videos. The executed teacher notebook predates this restructure. Web page written and restructured (`index.md`, 28 Oct) and listed in `practicals.yml`. Both Colab badges link straight to Colab (`colab.research.google.com/drive/<file id>`): the Safety Monitor demo (Section 1) and the P5 student notebook (Section 2). "Video Safety Monitor" renamed to "Safety Monitor" in the three local notebooks, `build_p5.py` and the page (the Drive copies still need it).
 

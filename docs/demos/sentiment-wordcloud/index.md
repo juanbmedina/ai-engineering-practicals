@@ -15,7 +15,7 @@ You do not write any code in this demonstration. The notebook holds the whole ap
 
 ## Before you begin
 
-1. Get a free API key from Google Gemini or Groq. The guide [Getting a Free API Key for Google Gemini and Groq]({{ '/guides/api-keys-groq-gemini/' | relative_url }}) takes about five minutes.
+1. Get a free API key from Google Gemini or Groq. The guide [Getting a Free API Key for Google Gemini and Groq]({{ '/guides/api-keys-groq-gemini/' | relative_url }}) shows each step.
 2. If Colab is new to you, read [Getting Started with Google Colab]({{ '/guides/getting-started-colab/' | relative_url }}) first.
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1Wig9Fc5PTo0SGmfdCb0v8XgEjWeRKhUk)

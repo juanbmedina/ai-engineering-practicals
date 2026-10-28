@@ -317,7 +317,7 @@ Two of the four measurements carry almost all of the useful information. The pol
 
 <!-- ## Part 5 — Let the machine calibrate it
 
-You spent several minutes adjusting numbers by hand. The machine does the same job by generating settings at random and keeping whichever one scores highest. Run the last cell of the notebook and watch the printed scores climb.
+You adjusted the numbers by hand. The machine does the same job by generating settings at random and keeping whichever one scores highest. Run the last cell of the notebook and watch the printed scores climb.
 
 ```python
 generator = np.random.default_rng(0)

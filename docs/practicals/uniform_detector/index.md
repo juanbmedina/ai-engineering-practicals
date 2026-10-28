@@ -1,18 +1,18 @@
 ---
 layout: default
-title: "Practical 5 — Training a small model: an overalls detector"
+title: "Practical 5 — Training a small Convolutional Neural Network for a Safety Detector"
 ---
 
-# Practical 5 — Training a small model: an overalls detector
+# Practical 5 — Training a small Convolutional Neural Network for a Safety Detector
 
 ## How this session works
 
 **This session has two sections, and both work on the same safety problem in a simulated car workshop.** In Section 1, you run the Safety Monitor, a demonstration app that watches a video of the workshop and reports who enters a restricted zone without the right overalls. The app finds the overalls with a mask, and you calibrate that mask by hand with four sliders. In Section 2, you build the same detector in a different way. Instead of choosing the range of the mask yourself, you give the computer crops of people with and without overalls, and the computer learns the decision from those examples. At the end, you plug your model into the Safety Monitor and run it on the same scenes and the same video.
 
-| Section | What you do | Notebook | Time |
-|---|---|---|---|
-| 1 — Demonstration | Run the Safety Monitor and calibrate the overalls mask with the sliders | Safety Monitor | About 15 minutes |
-| 2 — Practice | Train a small model that classifies the crops, then run it inside the Safety Monitor | `MEEN41490_P5_Overalls_Detector_STUDENT` | About 50 minutes |
+| Section | What you do | Notebook |
+|---|---|---|
+| 1 — Demonstration | Run the Safety Monitor and calibrate the overalls mask with the sliders | Safety Monitor |
+| 2 — Practice | Train a small model that classifies the crops, then run it inside the Safety Monitor | `MEEN41490_P5_Overalls_Detector_STUDENT` |
 
 In every practical so far, somebody else wrote the rule that the computer follows. In Practical 3, you wrote a mask by hand to find the pole in each snapshot. In Practical 4, you downloaded a pretrained language model and used it as it was. In Section 2 of this session, for the first time, you **train** a model. That is, you give the computer labelled examples, and the computer adjusts its own numbers until it separates the examples correctly.
 
@@ -161,14 +161,14 @@ The notebook defines a helper, `show_architecture(model)`, which draws any model
 
 ## The notebook of the practice
 
-The notebook has four parts. Parts 1 and 2 take about 10 minutes, and Part 3 is the challenge. Part 0 is this page, so read it before you open the notebook. Most code cells of the notebook show only a title, because their code is collapsed. Run them like any other cell, and double-click the title if you want to read the code. The code that stays visible is the code that you read or edit, i.e., the models of Parts 2.3 and 3 and the short calls of Part 4.
+The notebook has four parts, and Part 3 is the challenge. Part 0 is this page, so read it before you open the notebook. Most code cells of the notebook show only a title, because their code is collapsed. Run them like any other cell, and double-click the title if you want to read the code. The code that stays visible is the code that you read or edit, i.e., the models of Parts 2.3 and 3 and the short calls of Part 4.
 
-| Part | What you do | Time |
-|---|---|---|
-| 1 | Load the crops and measure the mask of the demonstration on the test set | About 4 minutes |
-| 2 | Meet the training loop and train a first model | About 6 minutes |
-| 3 | **The challenge.** Calibrate the architecture and the training until the model reaches the target | About 30 minutes |
-| 4 | Run YOLOv8 and your model together on the scenes and the three videos of the demonstration | About 5 minutes |
+| Part | What you do |
+|---|---|
+| 1 | Load the crops and measure the mask of the demonstration on the test set |
+| 2 | Meet the training loop and train a first model |
+| 3 | **The challenge.** Calibrate the architecture and the training until the model reaches the target |
+| 4 | Run YOLOv8 and your model together on the scenes and the three videos of the demonstration |
 
 > **How to use this page.** The notebook holds the code, and you run its cells in order. This page explains the ideas behind each part, so that you understand what every cell does before you run it. The challenge in Part 3 has no solution on this page, because that problem is yours to solve.
 
@@ -178,10 +178,10 @@ The notebook has four parts. Parts 1 and 2 take about 10 minutes, and Part 3 is 
 
 ### The data of the session
 
-The notebook needs the ten data files below. Download them to your computer, open the Files panel of Colab (folder icon on the left) and drag the ten files into it. Then, run the setup cell, which checks that every file is there and unpacks the crops. The setup cell also tries to download from this page any file that is missing. Files uploaded to Colab disappear when the session closes, so keep the copies on your computer.
+The notebook uses the ten data files below. You do not need to download or upload them, because the setup cell of the notebook downloads them from this page into Colab and unpacks the crops. The links are here so that you can look at the data on your own computer.
 
 - [`overalls_crops.zip`]({{ '/practicals/uniform_detector/assets/data/overalls_crops.zip' | relative_url }}){:download=""} — 354 crops of people, 96 × 96 pixels, split into a training set and a test set
-- [`workshop_walk.mp4`]({{ '/practicals/uniform_detector/assets/data/workshop_walk.mp4' | relative_url }}){:download=""}, [`workshop_walk2.mp4`]({{ '/practicals/uniform_detector/assets/data/workshop_walk2.mp4' | relative_url }}){:download=""} and [`multiple_workers.mp4`]({{ '/practicals/uniform_detector/assets/data/multiple_workers.mp4' | relative_url }}){:download=""} — the three videos of Section 1. You already have them if you did the demonstration.
+- [`workshop_walk.mp4`]({{ '/practicals/uniform_detector/assets/data/workshop_walk.mp4' | relative_url }}){:download=""}, [`workshop_walk2.mp4`]({{ '/practicals/uniform_detector/assets/data/workshop_walk2.mp4' | relative_url }}){:download=""} and [`multiple_workers.mp4`]({{ '/practicals/uniform_detector/assets/data/multiple_workers.mp4' | relative_url }}){:download=""} — the three videos of Section 1
 - [`scene_002.jpg`]({{ '/practicals/uniform_detector/assets/data/scene_002.jpg' | relative_url }}){:download=""}, [`scene_021.jpg`]({{ '/practicals/uniform_detector/assets/data/scene_021.jpg' | relative_url }}){:download=""}, [`scene_032.jpg`]({{ '/practicals/uniform_detector/assets/data/scene_032.jpg' | relative_url }}){:download=""}, [`scene_033.jpg`]({{ '/practicals/uniform_detector/assets/data/scene_033.jpg' | relative_url }}){:download=""}, [`scene_047.jpg`]({{ '/practicals/uniform_detector/assets/data/scene_047.jpg' | relative_url }}){:download=""}, [`scene_099.jpg`]({{ '/practicals/uniform_detector/assets/data/scene_099.jpg' | relative_url }}){:download=""} — six full camera snapshots of the workshop
 
 Each crop of the dataset is the content of one box that YOLOv8 found in a workshop snapshot, cut as a square and resized to 96 × 96 pixels. A person labelled every crop as `overalls` or `no_overalls`.
@@ -319,7 +319,7 @@ If you finish before the end of the session, the notebook continues with three o
 
 ## Something went wrong?
 
-- **The setup cell reports missing files.** Download the ten files listed under "The data of the session", upload them in the Files panel, and run the setup cell again.
+- **The setup cell cannot download the data files.** Run the setup cell again. If the error repeats, download the ten files listed under "The data of the session", upload them in the Files panel, and run the setup cell once more.
 - **`RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x1024 and 256x1)`.** The first `Linear` layer expects 256 numbers but receives 1024. Set its first argument to the number that `show_architecture` prints before `Linear`.
 - **`RuntimeError: ... expected input[32, 8, 32, 32] to have 4 channels`.** A `Conv2d` expects 4 maps but receives 8. Set its first argument to the number of kernels of the convolution before it.
 - **Training is slow.** Reduce the number of kernels or add pooling earlier. Models under 50,000 parameters train in well under a minute on the CPU.

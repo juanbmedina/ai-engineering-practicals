@@ -1,4 +1,4 @@
-"""Build the notebook for Practical 5 (Training a small model: overalls detector).
+"""Build the notebook for Practical 5 (Training a small Convolutional Neural Network for a Safety Detector).
 
 Run:  python3 build_p5.py
 Writes: MEEN41490_P5_Overalls_Detector_STUDENT.ipynb
@@ -24,7 +24,7 @@ def code(text, title=None, hidden=False):
 
 # =========================================================================== intro
 md(r"""
-# Practical 5 — Training a small model: an overalls detector for the safety monitor
+# Practical 5 — Training a small Convolutional Neural Network for a Safety Detector
 
 **AI in Engineering (MEEN41490)**
 
@@ -34,19 +34,13 @@ The rule works on the video it was tuned for. However, the workshop has many cam
 
 In this practical, you replace the colour rule with a **trained model**. Instead of writing the rule yourself, you give the computer examples of workers in overalls and people without them. The model adjusts its internal numbers until it separates the two groups. Your challenge is to design and calibrate that model. At the end, you plug your best model into the safety monitor and run it on the scenes and the three videos from the demonstration.
 
-**How this notebook works.** Run the cells in order. To run a cell, click the play button on its left. Parts 1 and 2 take about 10 minutes. Part 3 is the challenge, and you should spend about 30 minutes on it. In Part 3 you edit code directly, so read Part 2 with care. Part 0 of the practical page refreshes the ideas that the challenge relies on, i.e., images as arrays, convolutions, pooling and training. Read it before you start, because this notebook does not repeat it.
+**How this notebook works.** Run the cells in order. To run a cell, click the play button on its left. In Part 3 you edit code directly, so read Parts 1 and 2 with care. Part 0 of the practical page refreshes the ideas that the challenge relies on, i.e., images as arrays, convolutions, pooling and training.
 
-Most code cells show only a title, e.g., "Load the crops and show twelve examples". Their code is collapsed, because you do not need to read it to complete the practical. Run those cells like any other, with the play button. If you are curious, double-click the title to see the code. The code that stays visible is the code that you read or edit, i.e., the models of Parts 2.3 and 3 and the short calls of Part 4.
+### The data of the practice
 
-### Before you start — load the data into Colab
+The notebook uses ten data files, which sit on the practical page under "The data of the session". They are the crops (`overalls_crops.zip`), six camera snapshots (`scene_*.jpg`) and the three videos of the demonstration (`workshop_walk.mp4`, `workshop_walk2.mp4` and `multiple_workers.mp4`).
 
-The notebook needs ten data files. They are listed on the practical page under "The data of the session": the crops (`overalls_crops.zip`), six camera snapshots (`scene_*.jpg`) and the three videos of the demonstration (`workshop_walk.mp4`, `workshop_walk2.mp4` and `multiple_workers.mp4`).
-
-1. Download the ten files from the practical page to your computer. You already have the three videos if you did Section 1.
-2. Open the Files panel of Colab (the folder icon on the left) and drag the ten files into it. The upload takes a few seconds.
-3. Run the setup cell below. It installs the libraries, checks that every file is there, unpacks the crops and prepares the helper functions.
-
-The setup cell also tries to download the files from the practical page by itself. If that works, you can skip the upload. Files uploaded to Colab disappear when the session closes, so keep the downloaded copies on your computer.
+You do not need to download or upload anything. The setup cell below installs the libraries, downloads the ten files into Colab, unpacks the crops and prepares the helper functions. When it finishes, the files appear in the Files panel of Colab (the folder icon on the left). If Colab restarts, run the setup cell again, and it downloads the files again.
 """)
 
 # =========================================================================== setup
@@ -72,8 +66,8 @@ import torch                       # PyTorch: the library that builds and trains
 import torch.nn as nn
 
 # ---- Data files ------------------------------------------------------------
-# The cell first looks for the files that you uploaded in the Files panel. For each file
-# that is missing, it tries to download it from the course website.
+# The cell downloads the data files from the course website into Colab. It skips any
+# file that is already in the Files panel, e.g., when you run this cell a second time.
 DATA_URL = "https://juanbmedina.github.io/ai-engineering-practicals/practicals/uniform_detector/assets/data/"
 FILES = ["overalls_crops.zip",
          "workshop_walk.mp4", "workshop_walk2.mp4", "multiple_workers.mp4",
@@ -81,13 +75,15 @@ FILES = ["overalls_crops.zip",
 for name in FILES:
     if not os.path.exists(name):
         try:
-            urllib.request.urlretrieve(DATA_URL + name, name)
+            urllib.request.urlretrieve(DATA_URL + name, name + ".part")
+            os.rename(name + ".part", name)          # only complete downloads get the final name
         except Exception as e:
             print(f"Could not download {name}: {e}")
 missing = [n for n in FILES if not os.path.exists(n)]
 if missing:
-    raise SystemExit(f"Missing files: {missing}. Download them from the practical page, "
-                     "upload them in the Files panel (folder icon on the left) and run this cell again.")
+    raise SystemExit(f"Could not download {missing}. Run this cell again. If the error repeats, download "
+                     "the files from the practical page, upload them in the Files panel (folder icon on the left) "
+                     "and run this cell once more.")
 if not os.path.isdir("dataset"):
     zipfile.ZipFile("overalls_crops.zip").extractall(".")
 
@@ -239,6 +235,8 @@ show_grid(test_images[wrong], [f"red share {demo_colour_rule(test_images[i])[1]:
 md(r"""
 ## Part 2 — The training loop and a first model
 
+From this part on, the notebook uses **PyTorch**, a free Python library that builds and trains neural networks. PyTorch provides the layers of a model as ready-made blocks, e.g., `nn.Conv2d` and `nn.Linear`. It also computes the gradient steps of training for you. In the code, `torch` is the library and `nn` is its collection of layers.
+
 ### 2.1 Preparing the arrays
 
 The model takes crops of 64 × 64 pixels, with the values scaled from 0–255 to −0.5–0.5. The cell builds the training and test tensors. A **tensor** is PyTorch's name for an array.
@@ -257,7 +255,7 @@ print("Test tensor:    ", tuple(X_test.shape))
 md(r"""
 ### 2.2 The training loop
 
-The cell below defines the two functions that you call in the challenge. Its code is collapsed, because you do not need to change it. Still, you need to know what each function does, because the challenge asks you to read what they print. Double-click the title if you want to read the code and its comments.
+The cell below defines the two functions that you call in the challenge. You need to know what each function does, because the challenge asks you to read what they print. Double-click the title if you want to read the code and its comments.
 
 - `train_model` runs the gradient steps for a number of epochs and records the loss and the accuracies after each epoch. This is the training loop of Part 0.5 of the practical page, written in code.
 - `run_experiment` trains a model from fresh random parameters, measures its test accuracy, its number of parameters and its training time, draws the curves, and adds one row to an **experiment log**. The log is a table with every model you have tried. Keeping such a log is how engineers tune a model without losing track.
@@ -628,7 +626,7 @@ plot_history(history, "best architecture trained on 40 crops")
 md(r"""
 **Something went wrong?**
 
-- If the setup cell reports missing files, download them from the practical page and upload them in the Files panel (folder icon on the left). Then, run the setup cell again.
+- If the setup cell cannot download the data files, run it again. If the error repeats, download the ten files from the practical page, upload them in the Files panel (folder icon on the left), and run the setup cell once more.
 - `RuntimeError: mat1 and mat2 shapes cannot be multiplied (32x1024 and 256x1)`. The first `Linear` layer expects 256 numbers but receives 1024. Set its first argument to the number that `show_architecture` prints before `Linear`.
 - `RuntimeError: ... expected input[32, 8, 32, 32] to have 4 channels`. A `Conv2d` expects 4 maps but receives 8. Set its first argument to the number of kernels of the convolution before it.
 - If training is slow, reduce the number of kernels or add pooling earlier. Models under 50,000 parameters train in well under a minute on the CPU.
