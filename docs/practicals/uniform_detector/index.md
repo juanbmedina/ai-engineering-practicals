@@ -105,6 +105,10 @@ In Section 1, you chose the range of the mask, and the app only counted the pixe
 
 Part 0 below refreshes what you need to know about convolutional networks before you open the notebook of the practice. The notebook does not repeat it, so read it first.
 
+> **Before you begin.** Open the notebook, save your own copy to Drive, and rename it to `MEEN41490_P5_YourName`. The practice runs on the CPU, so you do not need a GPU.
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1T2kAeJpReotKX4YmX-BWeTHGwSzImVOZ)
+
 ## Part 0 — Convolutional networks: what you need to remember
 
 The model that you train today is a small Convolutional Neural Network (CNN). You have seen convolutions in the lectures, and this part refreshes the four ideas that the challenge relies on. Each figure of this part comes from a real crop of the dataset. This part lives on this page only, and the notebook starts at Part 1.
@@ -171,10 +175,6 @@ The notebook has four parts, and Part 3 is the challenge. Part 0 is this page, s
 | 4 | Run YOLOv8 and your model together on the scenes and the three videos of the demonstration |
 
 > **How to use this page.** The notebook holds the code, and you run its cells in order. This page explains the ideas behind each part, so that you understand what every cell does before you run it. The challenge in Part 3 has no solution on this page, because that problem is yours to solve.
-
-> **Before you begin.** Open the notebook, save your own copy to Drive, and rename it to `MEEN41490_P5_YourName`. The practice runs on the CPU, so you do not need a GPU.
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1T2kAeJpReotKX4YmX-BWeTHGwSzImVOZ)
 
 ### The data of the session
 
