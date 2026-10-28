@@ -10,3 +10,6 @@
 - practice: 3
   title: "Report generation using LLMs"
   path: /practicals/audit_report_local_model/
+- practice: 5
+  title: "Training a small model: an overalls detector"
+  path: /practicals/uniform_detector/
