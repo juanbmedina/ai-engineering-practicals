@@ -1,0 +1,1149 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<style>[hidden]{display:none!important}img{max-width:100%}</style>
+<title>Practical 5 Slides</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one fixed 1280x720 stage scaled to the window. Course-site palette (paper, ink, blue accent). */
+:root{
+  --bg:#fdfcfa; --fg:#1a1a1a; --muted:#6b6b6b; --line:#e3e1dc; --accent:#2a5db0;
+  --code-bg:#f4f2ee; --panel:#ffffff; --floor:#eceae4; --wall:#cfcbc2;
+  --zone:#f0c93a; --zone-ink:#7a5d00; --red:#c8372d; --green:#2e8b57; --skin:#e0b48f; --dark:#2b2b2b; --polo:#4e9a6a;
+  --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#161614; --fg:#ecebe6; --muted:#a09e97; --line:#33322e; --accent:#7fa6e6;
+  --code-bg:#22221f; --panel:#1e1e1b; --floor:#2a2a27; --wall:#4a4843;
+  --zone:#d9b42c; --zone-ink:#f3df8a; --red:#e2574c; --green:#4fb37c; --skin:#d8ad88; --dark:#8a8a86; --polo:#5fae7a;
+  color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#161614; --fg:#ecebe6; --muted:#a09e97; --line:#33322e; --accent:#7fa6e6;
+  --code-bg:#22221f; --panel:#1e1e1b; --floor:#2a2a27; --wall:#4a4843;
+  --zone:#d9b42c; --zone-ink:#f3df8a; --red:#e2574c; --green:#4fb37c; --skin:#d8ad88; --dark:#8a8a86; --polo:#5fae7a;
+  color-scheme:dark }
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:24px;line-height:1.4;
+  overflow:hidden;padding-block:0;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+#wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+#stage{width:1280px;height:720px;position:relative;transform-origin:center center;flex:none}
+.slide{position:absolute;inset:0;padding:56px 80px 72px;display:none;flex-direction:column;gap:18px}
+.slide.active{display:flex}
+h1,h2{margin:0;line-height:1.15;text-wrap:balance;font-weight:700}
+h1{font-size:54px}
+h2{font-size:40px}
+.eyebrow{font-size:17px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);font-weight:600}
+.sub{color:var(--muted);font-size:26px}
+p{margin:0}
+ul{margin:0;padding-left:1.1em}
+li{margin:0 0 .35em}
+.big{font-size:30px}
+.small{font-size:19px;color:var(--muted)}
+.row{display:flex;gap:40px;align-items:flex-start;min-width:0}
+.row>*{min-width:0}
+.col{display:flex;flex-direction:column;gap:14px;min-width:0}
+.grow{flex:1 1 0}
+.fill{flex:1 1 auto;min-height:0}
+code,pre{font-family:var(--mono)}
+code{background:var(--code-bg);padding:.08em .35em;border-radius:5px;font-size:.9em}
+pre{margin:0;background:var(--code-bg);border-radius:10px;padding:18px 22px;font-size:21px;line-height:1.5;overflow-x:auto}
+pre .hl{background:color-mix(in srgb,var(--accent) 22%,transparent);border-radius:4px;outline:3px solid color-mix(in srgb,var(--accent) 22%,transparent)}
+pre .k{color:var(--accent)}
+.callout{font-size:19px;color:var(--muted)}
+.callout b{color:var(--fg)}
+.frag{opacity:0;transform:translateY(8px);transition:opacity .35s,transform .35s}
+.frag.on{opacity:1;transform:none}
+.frag.gone{opacity:0;transform:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px 26px}
+.pill{display:inline-block;border-radius:999px;padding:.15em .7em;font-size:18px;font-weight:600;border:1.5px solid var(--line)}
+.pill.ok{color:var(--green);border-color:var(--green)}
+.pill.bad{color:var(--red);border-color:var(--red)}
+.pill.acc{color:var(--accent);border-color:var(--accent)}
+.btn{font:inherit;font-size:19px;font-weight:600;padding:.4em 1em;border-radius:10px;border:1.5px solid var(--accent);background:transparent;color:var(--accent);cursor:pointer}
+.btn:hover,.btn.on{background:var(--accent);color:var(--bg)}
+.btn:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.ctrl{display:flex;gap:18px;align-items:center;flex-wrap:wrap;font-size:19px}
+label.sl{display:flex;flex-direction:column;gap:4px;font-size:17px;color:var(--muted);min-width:150px}
+label.sl b{color:var(--fg);font-family:var(--mono);font-weight:500}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:17px;padding:.15em .6em;border-radius:7px;background:var(--code-bg);font-family:var(--mono)}
+.chip.no{text-decoration:line-through;color:var(--red)}
+.chip.hi{background:var(--accent);color:var(--bg)}
+.arrow{font-size:40px;color:var(--muted);align-self:center}
+a{color:var(--accent)}
+.linkbtn{display:inline-block;background:var(--accent);color:var(--bg);text-decoration:none;font-weight:600;font-size:24px;padding:.5em 1.1em;border-radius:12px}
+.grid{display:grid;gap:4px}
+.cell{display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:17px;border-radius:5px;background:var(--code-bg);transition:background .3s,color .3s,transform .3s}
+svg text{font-family:var(--sans)}
+svg .mono{font-family:var(--mono)}
+
+/* chrome */
+#bar{position:absolute;left:0;top:0;height:5px;background:var(--accent);width:0;transition:width .3s;z-index:3}
+#foot{position:absolute;left:80px;right:80px;bottom:22px;display:flex;justify-content:space-between;align-items:center;font-size:16px;color:var(--muted)}
+#foot .nav{display:flex;gap:6px}
+#foot button{font:inherit;font-size:16px;color:var(--muted);background:transparent;border:1px solid var(--line);border-radius:8px;padding:2px 12px;cursor:pointer}
+#foot button:hover{color:var(--fg);border-color:var(--fg)}
+#notes{position:absolute;left:0;right:0;bottom:0;background:var(--panel);border-top:2px solid var(--accent);padding:18px 80px;font-size:20px;line-height:1.45;max-height:45%;overflow:auto;z-index:4}
+#notes .nl{font-size:14px;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
+#help{position:absolute;right:80px;bottom:60px;background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:14px 18px;font-size:16px;color:var(--muted);z-index:4;line-height:1.6}
+#help kbd{font-family:var(--mono);background:var(--code-bg);padding:0 .4em;border-radius:4px;color:var(--fg)}
+
+@media (prefers-reduced-motion: reduce){
+  .frag,.cell,#bar{transition:none}
+}
+</style>
+
+</head>
+<body>
+<div id="wrap">
+<div id="stage">
+<div id="bar"></div>
+
+<!-- 1 · Title -->
+<section class="slide" id="s-title" data-part="Part 1 · before the demonstration · 5 min">
+  <div class="eyebrow">MEEN41490 · AI in Engineering</div>
+  <h1>Practical 5 — Training a small model</h1>
+  <p class="sub">An overalls detector for the Safety Monitor</p>
+  <div class="fill"></div>
+  <p class="small">Juan B. Medina · Module coordinator: Dr David Garzón Ramos<br>School of Mechanical and Materials Engineering · University College Dublin</p>
+  <template class="notes">Today has two sections. First, a demonstration app that you calibrate by hand. Then, a notebook in which you train a model for the first time. Both sections work on the same safety problem.</template>
+</section>
+
+<!-- 2 · The workshop -->
+<section class="slide" id="s-workshop" data-part="Part 1 · the problem">
+  <h2>A restricted zone in a car workshop</h2>
+  <div class="row fill">
+    <div class="grow" style="flex:1.35">
+      <svg id="ws-svg" viewBox="0 0 700 420" width="100%" style="max-height:440px" aria-label="Top view of a workshop floor with a yellow restricted zone"></svg>
+    </div>
+    <div class="col grow" style="justify-content:center;gap:16px;font-size:26px">
+      <p>The yellow zone holds two car lifts.</p>
+      <p>Only the mechanics in <span style="color:var(--red);font-weight:700">red overalls</span> may enter it.</p>
+      <p class="frag">Several cameras watch the floor. Light changes from one camera to the next.</p>
+      <div class="frag card" style="border-color:var(--accent);padding:16px 22px">
+        <p class="small" style="margin-bottom:4px">For every frame, the monitor must answer</p>
+        <p><b>1.</b> Where is each person?</p>
+        <p><b>2.</b> Does that person wear the overalls?</p>
+      </div>
+    </div>
+  </div>
+  <template class="notes">The workshop is simulated, so no real person appears in the data. The animation loops. A worker in overalls moves between the lifts. A visitor in dark clothes walks into the zone, and that is the event the monitor must report. Two questions per frame, and each one gets its own tool.</template>
+</section>
+
+<!-- 3 · Two jobs -->
+<section class="slide" id="s-jobs" data-part="Part 1 · the problem">
+  <h2>Two questions, two different tools</h2>
+  <div class="row fill" style="align-items:stretch">
+    <div class="card grow col" style="gap:10px">
+      <div class="eyebrow">Question 1</div>
+      <p class="big"><b>Where is each person?</b></p>
+      <p>A general question. Every camera system in the world asks it.</p>
+      <div class="fill"></div>
+      <p><span class="pill acc">detector</span></p>
+      <p><b>YOLOv8</b>, pretrained on 80 kinds of objects.</p>
+      <p class="small">Trained by its authors. You reuse it, as you reused the language model in Practical 4.</p>
+    </div>
+    <div class="arrow">+</div>
+    <div class="card grow col frag" style="gap:10px">
+      <div class="eyebrow">Question 2</div>
+      <p class="big"><b>Does this person wear the overalls?</b></p>
+      <p>A question specific to this workshop. No pretrained model knows the answer.</p>
+      <div class="fill"></div>
+      <p><span class="pill acc">classifier</span></p>
+      <p><b>Section 1:</b> a mask you calibrate by hand.<br><b>Section 2:</b> a model you train on 250 crops.</p>
+      <p class="small">Trained by you, today.</p>
+    </div>
+  </div>
+  <p class="frag big">Reuse the large general part. Train only the small specific part.</p>
+  <template class="notes">This split is the main design idea of the Safety Monitor. Many engineering applications follow the same pattern. A big pretrained model answers the general question. A small model, trained on your own data, answers the specific one.</template>
+</section>
+
+<!-- 4 · YOLO -->
+<section class="slide" id="s-yolo" data-part="Part 1 · YOLO">
+  <h2>YOLO looks at the whole image once</h2>
+  <div class="row fill">
+    <div class="grow" style="flex:1.5">
+      <svg id="yolo-svg" viewBox="0 0 720 400" width="100%" style="max-height:440px;border-radius:12px" aria-label="A street scene with detection boxes"></svg>
+      <div class="ctrl" style="margin-top:12px">
+        <button class="btn" id="yolo-all">All 80 classes</button>
+        <button class="btn" id="yolo-person">Only <code style="background:transparent;padding:0">person</code></button>
+        <button class="btn" id="yolo-replay">Replay</button>
+      </div>
+    </div>
+    <div class="col grow" style="justify-content:center;gap:20px">
+      <p class="big">"You Only Look Once." One pass of the network, every box at once.</p>
+      <p>Each box carries three things. The four corners, the name of the object, and a confidence from 0 to 1.</p>
+      <p class="frag">Pretrained on 80 everyday classes. It names only what it has seen.</p>
+      <div class="chips frag">
+        <span class="chip">person</span><span class="chip">car</span><span class="chip">truck</span><span class="chip">bicycle</span><span class="chip">dog</span><span class="chip">bench</span><span class="chip">traffic light</span><span class="chip">suitcase</span><span class="chip">+72 more</span><span class="chip no">toolbox</span><span class="chip no">overalls</span>
+      </div>
+      <p class="frag">The Safety Monitor keeps one class, <code>person</code>, and ignores the rest.</p>
+    </div>
+  </div>
+  <template class="notes">New example, not the workshop. Press Replay to show the single pass again. Earlier detectors scanned thousands of windows one by one. YOLO predicts every box in one go, so it is fast enough for video. Click Only person to show what the monitor keeps. A toolbox becomes a suitcase, because the detector has no toolbox class.</template>
+</section>
+
+<!-- 5 · YOLO does not know overalls -->
+<section class="slide" id="s-same" data-part="Part 1 · YOLO">
+  <h2>For YOLO, both of them are a person</h2>
+  <div class="row fill" style="align-items:center">
+    <div class="grow" style="flex:1.1">
+      <svg id="same-svg" viewBox="0 0 520 360" width="100%" style="max-height:420px" aria-label="Two people, one in red overalls and one in a dark T-shirt, each with the same detection label"></svg>
+    </div>
+    <div class="col grow" style="gap:22px">
+      <p class="big">The detector finds people. It does not know what overalls are.</p>
+      <p class="frag big">Therefore, a second step looks inside each box.</p>
+      <div class="frag" style="display:flex;gap:14px;align-items:center;flex-wrap:wrap">
+        <span class="pill">crop of the box</span><span class="arrow" style="font-size:28px">→</span><span class="pill acc">classifier</span><span class="arrow" style="font-size:28px">→</span><span class="pill ok">overalls</span><span class="small">or</span><span class="pill bad">no_overalls</span>
+      </div>
+      <p class="frag">In the demonstration, the classifier is a <b>mask</b>. In the practice, it is the <b>model you train</b>.</p>
+    </div>
+  </div>
+  <template class="notes">Same label, same confidence, two different people. The crop inside the box is all the classifier sees. Next slide shows the mask, which you already know from Practical 3.</template>
+</section>
+
+<!-- 6 · The mask -->
+<section class="slide" id="s-mask" data-part="Part 1 · the mask">
+  <h2>The mask keeps the pixels of one colour range</h2>
+  <div class="row fill" style="gap:30px">
+    <div class="grow" style="flex:1.6">
+      <div id="mask-panels" style="display:flex;gap:16px;justify-content:space-between"></div>
+    </div>
+    <div class="col grow" style="gap:14px;justify-content:center">
+      <label class="sl">hue window around red <b id="mk-hue-v">0–10 and 170–179</b><input type="range" id="mk-hue" min="2" max="30" value="10"></label>
+      <label class="sl">minimum saturation <b id="mk-sat-v">20</b><input type="range" id="mk-sat" min="0" max="255" value="20"></label>
+      <label class="sl">minimum value (brightness) <b id="mk-val-v">20</b><input type="range" id="mk-val" min="0" max="255" value="20"></label>
+      <label class="sl">red share needed for overalls <b id="mk-thr-v">15%</b><input type="range" id="mk-thr" min="1" max="50" value="15"></label>
+      <button class="btn" id="mk-reset" style="align-self:flex-start">Reset to the demo values</button>
+      <p class="small">Four crops, four cameras. Each crop goes to HSV. The mask keeps the pixels inside the range and counts them.</p>
+    </div>
+  </div>
+  <template class="notes">Drawn crops, same idea as the real ones. The default values are the ones the app starts with. Ask a student to fix the third crop by widening the hue window. Then ask another to catch the dark crop by lowering the minimum value. Finally lower the red share and watch the visitor with the red toolbox get accepted. Every camera asks for a different setting, and that is the trade-off you will fight in the app.</template>
+</section>
+
+<!-- 7 · Workflow -->
+<section class="slide" id="s-flow" data-part="Part 1 · the workflow">
+  <h2>The workflow of the Safety Monitor</h2>
+  <div id="flow-row" style="display:flex;gap:14px;align-items:flex-start;justify-content:space-between"></div>
+  <div class="fill"></div>
+  <p class="frag big" id="flow-last">Step 3 is the <b>mask</b> in the demonstration and <b>your model</b> in the practice. Steps 1 and 2 do not change.</p>
+  <template class="notes">Three stages, one frame. The frame arrives. YOLO returns one box per person. The classifier colours each box green or red. A red box inside the zone raises the alert. In the practice you replace only the third stage.</template>
+</section>
+
+<!-- 8 · Demo pause -->
+<section class="slide" id="s-demo" data-part="Section 1 · demonstration · 15 min">
+  <div class="eyebrow">Section 1 · about 15 minutes</div>
+  <h2>Now, calibrate the mask in the Safety Monitor</h2>
+  <div class="row fill" style="align-items:center">
+    <div class="col grow" style="gap:16px">
+      <ol class="big" style="margin:0;padding-left:1.2em;line-height:1.5">
+        <li>Open the notebook and run its three cells. Click the <code>gradio.live</code> link.</li>
+        <li>Upload <code>workshop_walk.mp4</code>, extract the first frame, mark the zone.</li>
+        <li>Move the four sliders, process the video, read the score. Try three calibrations.</li>
+        <li>Repeat with <code>multiple_workers.mp4</code>, another camera.</li>
+      </ol>
+      <p class="small">The three videos are on the practical page, under Section 1. Write down your best calibration. You will compare it with your model at the end.</p>
+    </div>
+    <div class="col" style="align-items:center;gap:22px;width:360px;flex:none">
+      <a class="linkbtn" href="https://colab.research.google.com/drive/12cN25jqk4h2mQBP6PRL3Jzm0VMef-hgc" target="_blank" rel="noopener">Open the Safety Monitor</a>
+      <a href="https://juanbmedina.github.io/ai-engineering-practicals/practicals/uniform_detector/" target="_blank" rel="noopener" class="small">juanbmedina.github.io/ai-engineering-practicals</a>
+      <div id="timer" style="font-family:var(--mono);font-size:76px;font-weight:500;font-variant-numeric:tabular-nums">15:00</div>
+      <div class="ctrl"><button class="btn" id="timer-start">Start</button><button class="btn" id="timer-reset">Reset</button></div>
+    </div>
+  </div>
+  <template class="notes">Leave this slide up during the demonstration. Start the timer. Walk around. The HSV diagram in the app is the slide you just saw, applied to every box of the frame.</template>
+</section>
+
+<!-- 9 · Bridge -->
+<section class="slide" id="s-bridge" data-part="Part 2 · the practice · 10 min">
+  <div class="eyebrow">Section 2 · the practice</div>
+  <h2>This time, the computer chooses the numbers</h2>
+  <div class="row fill" style="align-items:stretch">
+    <div class="card grow col" style="gap:12px">
+      <div class="eyebrow" style="color:var(--muted)">Section 1 · the mask</div>
+      <p class="big">You chose <b>4 numbers</b> with the sliders.</p>
+      <div id="br-sliders" style="display:flex;flex-direction:column;gap:14px;padding:8px 0"></div>
+      <div class="fill"></div>
+      <p>The computer only counted pixels.</p>
+    </div>
+    <div class="card grow col" style="gap:12px;border-color:var(--accent)">
+      <div class="eyebrow">Section 2 · the model</div>
+      <p class="big">You give <b>250 labelled crops</b>.</p>
+      <div style="display:flex;gap:20px;align-items:center">
+        <div id="br-grid" class="grid" style="grid-template-columns:repeat(8,1fr);flex:1"></div>
+        <div style="text-align:center;min-width:150px">
+          <div class="small">test accuracy</div>
+          <div id="br-acc" style="font-family:var(--mono);font-size:54px;font-variant-numeric:tabular-nums">0.50</div>
+        </div>
+      </div>
+      <div class="fill"></div>
+      <p>The computer adjusts its <b>369 numbers</b> until the crops separate.</p>
+    </div>
+  </div>
+  <p class="frag big">Same workflow. Only step 3 changes. That is <b>training</b>.</p>
+  <template class="notes">Left, your hand on four sliders. Right, 369 numbers inside a small network, adjusted by the computer. The grid is a cartoon of those numbers settling during training. The accuracy climbs from chance, 0.5, to the target.</template>
+</section>
+
+<!-- 10 · Image as numbers -->
+<section class="slide" id="s-array" data-part="Part 2 · idea 1 of 4">
+  <h2>An image is an array of numbers</h2>
+  <div class="row fill" style="align-items:center;gap:50px">
+    <div class="col" style="flex:none;width:470px;gap:14px">
+      <div id="px-wrap" style="position:relative;width:420px;height:420px;perspective:900px"></div>
+      <div class="ctrl"><button class="btn on" id="px-pic">picture</button><button class="btn" id="px-num">numbers</button><button class="btn" id="px-ch">three channels</button><span id="px-read" class="small" style="font-family:var(--mono)">hover a pixel</span></div>
+    </div>
+    <div class="col grow" style="gap:18px">
+      <p class="big">One number per pixel and per colour channel. 0 is dark, 255 is bright.</p>
+      <p class="big frag">The model never sees a picture. It sees these numbers.</p>
+      <pre class="frag">crop.shape
+<span class="k">(3, 64, 64)</span></pre>
+      <p class="callout frag"><b>3</b> channels, red, green and blue · <b>64</b> rows · <b>64</b> columns<br>PyTorch puts the channels first. The crops of today are 64 × 64.</p>
+    </div>
+  </div>
+  <template class="notes">A twelve by twelve cartoon crop. Click numbers to replace the colours by their values. Click three channels to split it into the red, green and blue arrays. In Practical 3 you called these arrays layers. Hover a pixel to read its three numbers.</template>
+</section>
+
+<!-- 11 · Convolution -->
+<section class="slide" id="s-conv" data-part="Part 2 · idea 2 of 4">
+  <h2>A convolution slides a small window over the image</h2>
+  <div class="row fill" style="gap:36px">
+    <div class="col" style="flex:none;width:680px;gap:12px">
+      <div style="display:flex;gap:22px;align-items:center">
+        <div class="col" style="gap:6px;align-items:center"><span class="small">input 7 × 7</span><div id="cv-in" class="grid" style="grid-template-columns:repeat(7,38px)"></div></div>
+        <div class="col" style="gap:6px;align-items:center"><span class="small">kernel 3 × 3</span><div id="cv-k" class="grid" style="grid-template-columns:repeat(3,38px)"></div><div id="cv-sum" class="small" style="font-family:var(--mono);min-height:1.4em;text-align:center;width:150px"></div></div>
+        <div class="col" style="gap:6px;align-items:center"><span class="small">feature map 5 × 5</span><div id="cv-out" class="grid" style="grid-template-columns:repeat(5,38px)"></div></div>
+      </div>
+      <div class="ctrl">
+        <button class="btn" id="cv-play">Play</button><button class="btn" id="cv-step">Step</button>
+        <span class="small">kernel:</span>
+        <button class="btn on" data-k="v">vertical</button><button class="btn" data-k="h">horizontal</button><button class="btn" data-k="b">blur</button><button class="btn" data-k="r">random</button>
+      </div>
+    </div>
+    <div class="col grow" style="gap:16px;justify-content:center">
+      <p>At each position, multiply the 9 numbers under the window by the 9 numbers of the kernel and add them up. One number out.</p>
+      <p class="frag">Nobody writes the kernel. <b>Training adjusts its 9 numbers.</b> A layer with 4 kernels gives 4 feature maps.</p>
+      <pre class="frag" style="font-size:19px">nn.Conv2d(<span class="k">3</span>, <span class="k">4</span>,
+          kernel_size=<span class="k">3</span>,
+          padding=<span class="k">1</span>)</pre>
+      <p class="callout frag"><b>3</b> channels arrive · <b>4</b> kernels, so 4 maps leave · <b>3</b> × 3 window · <b>padding=1</b> keeps the map at 64 × 64</p>
+    </div>
+  </div>
+  <template class="notes">Press Play. The window moves one cell at a time, and the sum appears under the kernel. Switch the kernel. Vertical edges light up the two sides of the bar, horizontal edges light up the top and bottom, blur smooths everything. The random kernel is what a model has before training. Then show the PyTorch line and read its four numbers.</template>
+</section>
+
+<!-- 12 · ReLU and pooling -->
+<section class="slide" id="s-pool" data-part="Part 2 · idea 3 of 4">
+  <h2>ReLU keeps the positives, max pooling keeps the strongest</h2>
+  <div style="display:flex;gap:30px;align-items:center;justify-content:center">
+    <div class="col" style="gap:6px;align-items:center"><span class="small">feature map 4 × 4</span><div id="rp-in" class="grid" style="grid-template-columns:repeat(4,52px)"></div></div>
+    <div class="col" style="gap:6px;align-items:center;width:120px"><button class="btn" id="rp-relu">ReLU</button><svg viewBox="0 0 100 60" width="100" aria-hidden="true"><line x1="5" y1="45" x2="95" y2="45" stroke="var(--line)" stroke-width="2"/><line x1="50" y1="5" x2="50" y2="55" stroke="var(--line)" stroke-width="2"/><polyline points="8,45 50,45 90,8" fill="none" stroke="var(--accent)" stroke-width="4" stroke-linejoin="round"/></svg></div>
+    <div class="col" style="gap:6px;align-items:center"><span class="small">after ReLU</span><div id="rp-mid" class="grid" style="grid-template-columns:repeat(4,52px)"></div></div>
+    <div class="col" style="gap:6px;align-items:center;width:130px"><button class="btn" id="rp-pool">MaxPool 2</button></div>
+    <div class="col" style="gap:6px;align-items:center"><span class="small">after pooling 2 × 2</span><div id="rp-out" class="grid" style="grid-template-columns:repeat(2,52px)"></div></div>
+  </div>
+  <div class="row" style="gap:40px;margin-top:10px">
+    <div class="col grow" style="gap:10px">
+      <pre>nn.ReLU()</pre>
+      <p class="callout">Every negative number becomes 0. Without it, a stack of convolutions collapses into one big convolution.</p>
+    </div>
+    <div class="col grow" style="gap:10px">
+      <pre>nn.MaxPool2d(<span class="k">2</span>)   <span style="color:var(--muted)"># 64 × 64 → 32 × 32</span>
+nn.MaxPool2d(<span class="k">8</span>)   <span style="color:var(--muted)"># 64 × 64 →  8 × 8</span></pre>
+      <p class="callout frag">Keeps the strongest response of each square and forgets its exact position. <b>The overalls can be anywhere in the crop.</b></p>
+    </div>
+  </div>
+  <template class="notes">Click ReLU. The negatives turn to zero. Click MaxPool. Each 2 by 2 square keeps its largest number, so the map halves in height and in width. Pooling by 8 is what the first model of the notebook uses, which is why 64 by 64 becomes 8 by 8.</template>
+</section>
+
+<!-- 13 · Flatten and Linear -->
+<section class="slide" id="s-linear" data-part="Part 2 · idea 4 of 4">
+  <h2>Flatten the maps and let one neuron decide</h2>
+  <div class="row fill" style="gap:30px;align-items:center">
+    <div class="col" style="flex:none;width:720px;gap:10px">
+      <div style="display:flex;align-items:center;gap:18px">
+        <div id="fl-stack" style="position:relative;width:150px;height:150px;flex:none"></div>
+        <span class="arrow">→</span>
+        <div id="fl-row" style="display:grid;grid-template-columns:repeat(32,1fr);gap:2px;flex:1"></div>
+      </div>
+      <p class="small" style="text-align:center" id="fl-cap">4 maps of 8 × 8 become one row of <b>256</b> numbers</p>
+      <div style="display:flex;align-items:center;gap:18px;margin-top:6px">
+        <svg id="fl-neuron" viewBox="0 0 300 150" width="260" aria-label="A neuron that sums weighted inputs"></svg>
+        <svg id="fl-sig" viewBox="0 0 340 170" width="290" aria-label="The sigmoid curve"></svg>
+        <div class="col" style="gap:6px;align-items:center">
+          <label class="sl" style="min-width:130px">score <b id="fl-score-v">2.6</b><input type="range" id="fl-score" min="-6" max="6" step="0.1" value="2.6"></label>
+          <div id="fl-prob" style="font-family:var(--mono);font-size:40px">0.93</div>
+          <span id="fl-lab" class="pill ok">overalls</span>
+        </div>
+      </div>
+    </div>
+    <div class="col grow" style="gap:16px">
+      <pre>nn.Flatten()
+nn.Linear(<span class="k">256</span>, <span class="k">1</span>)</pre>
+      <p class="callout"><b>256</b> weights and <b>1</b> bias. Multiply, add, one score.</p>
+      <p class="frag">This is the neuron of Practical 2, with 256 inputs instead of 4.</p>
+      <p class="frag">The <b>sigmoid</b> maps the score to a confidence between 0 and 1. Above 0.5 counts as <code>overalls</code>.</p>
+    </div>
+  </div>
+  <template class="notes">The four maps unroll into one row. One neuron multiplies each number by a weight and adds a bias. Move the score slider and watch the sigmoid turn it into a confidence. The label flips at 0.5. In Practical 2 you tuned four weights by hand. Today the neuron has 256, and training tunes them.</template>
+</section>
+
+<!-- 14 · Whole model -->
+<section class="slide" id="s-model" data-part="Part 2 · the model">
+  <h2>The first model, line by line</h2>
+  <div class="row" style="gap:40px;align-items:flex-start">
+    <pre id="md-code" style="flex:none;font-size:18px;padding:14px 20px">model = nn.Sequential(
+<span data-l="0">    nn.Conv2d(3, 4, kernel_size=3, padding=1),</span>
+<span data-l="1">    nn.ReLU(),</span>
+<span data-l="2">    nn.MaxPool2d(8),</span>
+<span data-l="3">    nn.Flatten(),</span>
+<span data-l="4">    nn.Linear(256, 1),</span>
+)</pre>
+    <div class="col grow" style="gap:10px;padding-top:6px">
+      <p>Five layers, one after the other. Each layer receives what the layer before it produces.</p>
+      <p class="callout"><code>show_architecture(model)</code> draws this chain for any model you write, with the shape after each layer.</p>
+    </div>
+  </div>
+  <svg id="md-svg" viewBox="0 0 1000 250" width="100%" style="max-height:290px" aria-label="The model as a chain of glyphs with the shape of the data after each layer"></svg>
+  <template class="notes">Press the arrow to walk through the five lines. Each line is one box, and the shape under each box is what leaves it. The Linear layer must expect exactly the number that Flatten produces, 256 here. The last step counts the parameters, 112 in the convolution and 257 in the neuron, 369 in total.</template>
+</section>
+
+<!-- 15 · Training -->
+<section class="slide" id="s-train" data-part="Part 2 · training">
+  <h2>Training moves the parameters downhill</h2>
+  <div class="row fill" style="gap:30px;align-items:center">
+    <div class="col" style="flex:none;width:680px;gap:8px">
+      <div style="display:flex;gap:16px">
+        <svg id="tr-bowl" viewBox="0 0 360 230" width="340" aria-label="A loss curve with a ball taking gradient steps"></svg>
+        <svg id="tr-curve" viewBox="0 0 340 230" width="320" aria-label="Loss against epochs"></svg>
+      </div>
+      <div class="ctrl">
+        <button class="btn" id="tr-run">Train 12 epochs</button>
+        <span class="small">learning rate:</span>
+        <button class="btn" data-lr="0.001">0.001</button><button class="btn on" data-lr="0.01">0.01</button><button class="btn" data-lr="0.1">0.1</button>
+      </div>
+    </div>
+    <div class="col grow" style="gap:14px">
+      <p>The <b>loss</b> measures how far the confidences are from the labels. A random model scores about <b>0.69</b>.</p>
+      <p class="frag">Each <b>step</b> moves every parameter a little in the direction that lowers the loss. The <b>learning rate</b> sets the size of the step.</p>
+      <pre class="frag" style="font-size:17px;padding:14px 18px">run_experiment(
+    "first model", model,
+    epochs=<span class="k">5</span>, learning_rate=<span class="k">0.001</span>,
+    batch_size=<span class="k">32</span>, seed=<span class="k">0</span>)</pre>
+      <p class="callout frag"><b>epochs</b> passes over the 250 crops · <b>learning_rate</b> step size · <b>batch_size</b> crops per step · <b>seed</b> the random start</p>
+    </div>
+  </div>
+  <template class="notes">Left, the loss as a landscape with one parameter. Press Train. With 0.001 the ball crawls and the loss is still falling at the last epoch. With 0.01 it reaches the bottom. With 0.1 it overshoots and bounces, and the curve jumps. Those three shapes are the ones you will read in your own curves.</template>
+</section>
+
+<!-- 16 · Challenge -->
+<section class="slide" id="s-challenge" data-part="Part 2 · the challenge · 30 min">
+  <h2>Your challenge in Part 3</h2>
+  <div class="row fill" style="gap:40px;align-items:center">
+    <div class="col" style="flex:none;width:520px;gap:10px">
+      <svg id="ch-bars" viewBox="0 0 520 300" width="520" aria-label="Test accuracy of chance, the mask, the first model and the target"></svg>
+    </div>
+    <div class="col grow" style="gap:14px">
+      <div style="display:flex;gap:12px">
+        <div class="card grow" style="text-align:center;padding:14px"><div style="font-family:var(--mono);font-size:40px">≥ 0.95</div><div class="small">test accuracy</div></div>
+        <div class="card grow" style="text-align:center;padding:14px"><div style="font-family:var(--mono);font-size:40px">&lt; 50,000</div><div class="small">parameters</div></div>
+        <div class="card grow" style="text-align:center;padding:14px"><div style="font-family:var(--mono);font-size:40px">≤ 60 s</div><div class="small">training</div></div>
+      </div>
+      <p class="frag">Fewest parameters wins. A good run also works with <code>seed=1</code>.</p>
+      <ul class="frag">
+        <li>Change <b>one thing</b> per run and name the run after it.</li>
+        <li>Read the curves before the next change.</li>
+        <li>The log keeps every run. Compare, do not guess.</li>
+      </ul>
+      <p class="frag"><b>Part 4:</b> plug your best model into the Safety Monitor and run the three videos.</p>
+    </div>
+  </div>
+  <template class="notes">Chance is 0.5, because the classes are balanced. The mask of the demonstration reaches 0.68 on the test crops. The first model of the notebook reaches about 0.72. The target line is 0.95. You edit the architecture and the training directly in the code of Part 3. Thirty minutes.</template>
+</section>
+
+<!-- 17 · Questions -->
+<section class="slide" id="s-end" data-part="">
+  <div class="fill"></div>
+  <h1>Time for your questions</h1>
+  <p class="sub">Practical guide and notebooks</p>
+  <p><a href="https://juanbmedina.github.io/ai-engineering-practicals/practicals/uniform_detector/" target="_blank" rel="noopener" class="big">juanbmedina.github.io/ai-engineering-practicals</a></p>
+  <div class="fill"></div>
+  <template class="notes">Open the notebook of the practice from the page. Save a copy to Drive first.</template>
+</section>
+
+<div id="foot">
+  <span id="foot-part"></span>
+  <span class="nav"><button id="nav-prev" aria-label="previous">‹</button><span id="foot-count" style="padding:2px 10px;font-variant-numeric:tabular-nums"></span><button id="nav-next" aria-label="next">›</button><button id="nav-help" aria-label="help">?</button></span>
+</div>
+<div id="notes" hidden><div class="nl">Speaker notes</div><div id="notes-body"></div></div>
+<div id="help" hidden><kbd>→</kbd> <kbd>space</kbd> next step · <kbd>←</kbd> back · <kbd>N</kbd> notes · <kbd>F</kbd> fullscreen · <kbd>Home</kbd> <kbd>End</kbd> first, last</div>
+</div>
+</div>
+
+<script>
+(function(){
+'use strict';
+const RM = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const $ = (s, r) => (r || document).querySelector(s);
+const $$ = (s, r) => [...(r || document).querySelectorAll(s)];
+const stage = $('#stage');
+const slides = $$('.slide');
+const hooks = {};           // slide id -> {enter, leave, step, extra}
+let cur = 0, step = 0;
+const timers = new Set();   // intervals and rafs of the active slide
+function later(fn, ms){ const t = setTimeout(fn, ms); timers.add(t); return t; }
+function every(fn, ms){ const t = setInterval(fn, ms); timers.add(t); return t; }
+function clearTimers(){ timers.forEach(t => { clearTimeout(t); clearInterval(t); }); timers.clear(); }
+let rafId = 0, rafFn = null;
+function loop(fn){ rafFn = fn; const tick = (ts) => { if (rafFn !== fn) return; fn(ts); rafId = requestAnimationFrame(tick); }; rafId = requestAnimationFrame(tick); }
+function stopLoop(){ rafFn = null; cancelAnimationFrame(rafId); }
+// seeded random
+function rng(seed){ let s = seed >>> 0; return () => { s = (s * 1664525 + 1013904223) >>> 0; return s / 4294967296; }; }
+
+/* ---------- scaling ---------- */
+function fit(){
+  const w = innerWidth - 32, h = innerHeight;
+  stage.style.transform = 'scale(' + Math.min(w / 1280, h / 720) + ')';
+}
+addEventListener('resize', fit); fit();
+
+/* ---------- navigation ---------- */
+const frags = i => $$('.frag', slides[i]);
+const extra = i => (hooks[slides[i].id] && hooks[slides[i].id].extra) || 0;
+const total = i => extra(i) + frags(i).length;
+function render(){
+  const f = frags(cur), e = extra(cur);
+  f.forEach((el, k) => el.classList.toggle('on', step >= e + k + 1));
+  const h = hooks[slides[cur].id];
+  if (h && h.step) h.step(step);
+  $('#foot-count').textContent = (cur + 1) + ' / ' + slides.length;
+  $('#foot-part').textContent = slides[cur].dataset.part || '';
+  $('#bar').style.width = ((cur + 1) / slides.length * 100) + '%';
+  const n = $('template.notes', slides[cur]);
+  $('#notes-body').textContent = n ? n.innerHTML.trim() : '';
+}
+function show(i, atEnd){
+  const prevId = slides[cur].id;
+  if (hooks[prevId] && hooks[prevId].leave) hooks[prevId].leave();
+  clearTimers(); stopLoop();
+  slides[cur].classList.remove('active');
+  cur = i; step = atEnd ? total(i) : 0;
+  slides[cur].classList.add('active');
+  if (location.hash !== '#' + slides[cur].id) location.hash = slides[cur].id;
+  const h = hooks[slides[cur].id];
+  if (h && h.enter) h.enter();
+  render();
+}
+function next(){ if (step < total(cur)) { step++; render(); } else if (cur < slides.length - 1) show(cur + 1); }
+function prev(){ if (step > 0) { step--; render(); } else if (cur > 0) show(cur - 1, true); }
+addEventListener('keydown', e => {
+  const t = e.target.tagName;
+  if (t === 'INPUT' || t === 'TEXTAREA') return;
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  switch (e.key) {
+    case 'ArrowRight': case 'ArrowDown': case 'PageDown': case ' ': e.preventDefault(); next(); break;
+    case 'ArrowLeft': case 'ArrowUp': case 'PageUp': e.preventDefault(); prev(); break;
+    case 'Home': show(0); break;
+    case 'End': show(slides.length - 1); break;
+    case 'n': case 'N': $('#notes').hidden = !$('#notes').hidden; break;
+    case '?': case 'h': $('#help').hidden = !$('#help').hidden; break;
+    case 'f': case 'F': if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); else document.documentElement.requestFullscreen().catch(() => {}); break;
+  }
+});
+$('#nav-prev').onclick = prev; $('#nav-next').onclick = next;
+$('#nav-help').onclick = () => { $('#help').hidden = !$('#help').hidden; };
+addEventListener('hashchange', () => { const i = slides.findIndex(s => '#' + s.id === location.hash); if (i >= 0 && i !== cur) show(i); });
+
+/* ---------- shared drawing helpers ---------- */
+const C = {
+  zone: 'var(--zone)', zoneInk: 'var(--zone-ink)', red: 'var(--red)', green: 'var(--green)', skin: 'var(--skin)',
+  dark: 'var(--dark)', polo: 'var(--polo)', floor: 'var(--floor)', wall: 'var(--wall)', acc: 'var(--accent)',
+  fg: 'var(--fg)', muted: 'var(--muted)', bg: 'var(--bg)', line: 'var(--line)', panel: 'var(--panel)'
+};
+// top-down person: body circle + head
+function topPerson(x, y, colour, id, r){
+  r = r || 13;
+  return '<g class="person" ' + (id ? 'id="' + id + '"' : '') + ' transform="translate(' + x + ',' + y + ')">' +
+    '<circle r="' + r + '" fill="' + colour + '" stroke="' + C.bg + '" stroke-width="2"/>' +
+    '<circle r="' + (r * 0.45) + '" fill="' + C.skin + '"/></g>';
+}
+function lift(x, y){
+  return '<g transform="translate(' + x + ',' + y + ')"><rect x="0" y="0" width="110" height="56" rx="6" fill="' + C.wall + '"/>' +
+    '<rect x="-6" y="4" width="8" height="48" fill="' + C.red + '"/><rect x="108" y="4" width="8" height="48" fill="' + C.red + '"/>' +
+    '<rect x="14" y="10" width="82" height="36" rx="12" fill="color-mix(in srgb,' + C.acc + ' 55%,' + C.wall + ')"/>' +
+    '<rect x="20" y="2" width="14" height="8" rx="2" fill="' + C.dark + '"/><rect x="76" y="2" width="14" height="8" rx="2" fill="' + C.dark + '"/>' +
+    '<rect x="20" y="46" width="14" height="8" rx="2" fill="' + C.dark + '"/><rect x="76" y="46" width="14" height="8" rx="2" fill="' + C.dark + '"/></g>';
+}
+function floorScene(W, H, opts){
+  // opts: {zone:[x,y,w,h], lifts:[[x,y],...], extras}
+  const z = opts.zone;
+  return '<rect x="0" y="0" width="' + W + '" height="' + H + '" rx="10" fill="' + C.floor + '"/>' +
+    '<rect x="6" y="6" width="' + (W - 12) + '" height="' + (H - 12) + '" rx="8" fill="none" stroke="' + C.wall + '" stroke-width="6"/>' +
+    '<rect class="zone" x="' + z[0] + '" y="' + z[1] + '" width="' + z[2] + '" height="' + z[3] + '" rx="6" fill="' + C.zone + '" fill-opacity=".55" stroke="' + C.zoneInk + '" stroke-width="3" stroke-dasharray="10 7"/>' +
+    opts.lifts.map(p => lift(p[0], p[1])).join('') + (opts.extras || '');
+}
+function alertBadge(x, y){
+  return '<g class="alert" transform="translate(' + x + ',' + y + ')" opacity="0"><rect x="-44" y="-16" width="88" height="32" rx="8" fill="' + C.red + '"/><text x="0" y="6" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">ALERT</text></g>';
+}
+
+/* ---------- 2 · workshop ---------- */
+(function(){
+  const svg = $('#ws-svg');
+  const extras = '<rect x="40" y="340" width="34" height="22" rx="3" fill="' + C.red + '"/><rect x="600" y="60" width="34" height="22" rx="3" fill="' + C.red + '"/>' +
+    '<rect x="6" y="40" width="6" height="50" fill="' + C.floor + '"/>' + // door gap
+    '<g fill="' + C.muted + '" font-size="13"><text x="26" y="34">camera 1</text><text x="606" y="400">camera 2</text></g>' +
+    '<path d="M16 16 L80 16 L16 70 Z" fill="' + C.acc + '" fill-opacity=".18"/><path d="M684 404 L620 404 L684 350 Z" fill="' + C.acc + '" fill-opacity=".18"/>';
+  svg.innerHTML = floorScene(700, 420, { zone: [210, 100, 300, 220], lifts: [[240, 130], [380, 235]], extras }) +
+    topPerson(0, 0, C.red, 'ws-a') + topPerson(0, 0, C.red, 'ws-b') + topPerson(0, 0, C.polo, 'ws-v') + topPerson(0, 0, C.dark, 'ws-i') +
+    alertBadge(360, 60) +
+    '<text x="360" y="212" text-anchor="middle" font-size="15" font-weight="600" fill="' + C.zoneInk + '">restricted zone</text>';
+  const paths = {
+    'ws-a': [[0, 300, 170], [3, 330, 250], [6, 440, 310], [9, 460, 190], [12, 330, 150], [14, 300, 170]],
+    'ws-b': [[0, 470, 290], [4, 420, 300], [7, 380, 215], [10, 470, 210], [14, 470, 290]],
+    'ws-v': [[0, 40, 385], [7, 660, 375], [14, 40, 385]],
+    'ws-i': [[0, 30, 60], [3, 150, 70], [5, 240, 130], [8, 330, 200], [10, 250, 110], [12, 120, 70], [14, 30, 60]]
+  };
+  const T = 14;
+  function pos(kf, t){
+    for (let i = 0; i < kf.length - 1; i++) {
+      const a = kf[i], b = kf[i + 1];
+      if (t >= a[0] && t <= b[0]) { const u = (t - a[0]) / (b[0] - a[0]); return [a[1] + (b[1] - a[1]) * u, a[2] + (b[2] - a[2]) * u]; }
+    }
+    return [kf[0][1], kf[0][2]];
+  }
+  function frame(t){
+    let inside = false;
+    for (const id in paths) {
+      const p = pos(paths[id], t);
+      $('#' + id, svg).setAttribute('transform', 'translate(' + p[0] + ',' + p[1] + ')');
+      if (id === 'ws-i') inside = p[0] > 210 && p[0] < 510 && p[1] > 100 && p[1] < 320;
+    }
+    const zone = $('.zone', svg), al = $('.alert', svg), intr = $('#ws-i circle', svg);
+    zone.setAttribute('stroke', inside ? C.red : C.zoneInk);
+    zone.setAttribute('stroke-width', inside ? 5 : 3);
+    al.setAttribute('opacity', inside ? 1 : 0);
+    intr.setAttribute('stroke', inside ? C.red : C.bg);
+    intr.setAttribute('stroke-width', inside ? 4 : 2);
+  }
+  hooks['s-workshop'] = {
+    enter(){ if (RM) { frame(7); return; } const t0 = performance.now(); loop(ts => frame(((ts - t0) / 1000) % T)); }
+  };
+})();
+
+/* ---------- 4 · YOLO street ---------- */
+(function(){
+  const svg = $('#yolo-svg');
+  const sky = 'color-mix(in srgb,' + C.acc + ' 14%,' + C.bg + ')';
+  const scene =
+    '<rect width="720" height="400" fill="' + sky + '"/>' +
+    '<rect y="210" width="720" height="60" fill="' + C.floor + '"/><rect y="270" width="720" height="130" fill="' + C.wall + '"/>' +
+    '<line x1="0" y1="335" x2="720" y2="335" stroke="' + C.bg + '" stroke-width="4" stroke-dasharray="30 24"/>' +
+    // building
+    '<rect x="40" y="40" width="200" height="170" fill="' + C.panel + '" stroke="' + C.line + '"/>' +
+    '<g fill="' + sky + '"><rect x="60" y="60" width="40" height="40"/><rect x="120" y="60" width="40" height="40"/><rect x="180" y="60" width="40" height="40"/><rect x="60" y="130" width="40" height="40"/><rect x="120" y="130" width="40" height="40"/><rect x="180" y="130" width="40" height="40"/></g>' +
+    // traffic light
+    '<rect x="660" y="40" width="8" height="180" fill="' + C.dark + '"/><rect x="640" y="30" width="48" height="110" rx="8" fill="' + C.dark + '"/>' +
+    '<circle cx="664" cy="52" r="12" fill="' + C.red + '"/><circle cx="664" cy="85" r="12" fill="' + C.zone + '"/><circle cx="664" cy="118" r="12" fill="' + C.green + '"/>' +
+    // bench
+    '<rect x="560" y="206" width="110" height="12" rx="3" fill="' + C.muted + '"/><rect x="560" y="190" width="110" height="10" rx="3" fill="' + C.muted + '"/><rect x="568" y="218" width="8" height="24" fill="' + C.muted + '"/><rect x="654" y="218" width="8" height="24" fill="' + C.muted + '"/>' +
+    // car
+    '<g><rect x="70" y="290" width="200" height="50" rx="12" fill="' + C.acc + '"/><path d="M110 290 L135 255 L215 255 L245 290 Z" fill="' + C.acc + '"/><path d="M118 288 L138 262 L172 262 L172 288 Z" fill="' + sky + '"/><path d="M180 262 L212 262 L236 288 L180 288 Z" fill="' + sky + '"/>' +
+    '<circle cx="110" cy="340" r="18" fill="' + C.dark + '"/><circle cx="230" cy="340" r="18" fill="' + C.dark + '"/><circle cx="110" cy="340" r="7" fill="' + C.muted + '"/><circle cx="230" cy="340" r="7" fill="' + C.muted + '"/></g>' +
+    // bicycle
+    '<g stroke="' + C.dark + '" stroke-width="4" fill="none"><circle cx="320" cy="335" r="22"/><circle cx="390" cy="335" r="22"/><path d="M320 335 L345 295 L390 335 M345 295 L375 295 M340 335 L355 300 L320 335"/><path d="M372 292 L380 280"/></g>' +
+    // person A (green polo, jeans)
+    '<g><circle cx="450" cy="214" r="16" fill="' + C.skin + '"/><rect x="432" y="232" width="36" height="52" rx="8" fill="' + C.polo + '"/><rect x="434" y="282" width="14" height="52" fill="' + C.acc + '"/><rect x="452" y="282" width="14" height="52" fill="' + C.acc + '"/><rect x="424" y="236" width="9" height="40" rx="4" fill="' + C.skin + '"/><rect x="467" y="236" width="9" height="40" rx="4" fill="' + C.skin + '"/></g>' +
+    // person B (yellow jacket)
+    '<g><circle cx="520" cy="208" r="16" fill="' + C.skin + '"/><rect x="500" y="226" width="40" height="56" rx="8" fill="' + C.zone + '"/><rect x="503" y="280" width="15" height="54" fill="' + C.dark + '"/><rect x="522" y="280" width="15" height="54" fill="' + C.dark + '"/><rect x="491" y="230" width="10" height="44" rx="4" fill="' + C.zone + '"/><rect x="539" y="230" width="10" height="44" rx="4" fill="' + C.zone + '"/></g>' +
+    // dog
+    '<g fill="' + C.muted + '"><ellipse cx="610" cy="300" rx="40" ry="18"/><circle cx="650" cy="285" r="14"/><rect x="580" y="310" width="8" height="26"/><rect x="600" y="312" width="8" height="24"/><rect x="620" y="312" width="8" height="24"/><rect x="636" y="310" width="8" height="26"/><path d="M572 296 L552 276" stroke="' + C.muted + '" stroke-width="6" stroke-linecap="round"/><path d="M646 274 L640 262 M658 274 L664 262" stroke="' + C.muted + '" stroke-width="5" stroke-linecap="round"/></g>';
+  const boxes = [
+    { x: 64, y: 248, w: 212, h: 112, l: 'car', c: 0.93 },
+    { x: 292, y: 274, w: 126, h: 86, l: 'bicycle', c: 0.81 },
+    { x: 420, y: 194, w: 60, h: 144, l: 'person', c: 0.90, p: 1 },
+    { x: 488, y: 188, w: 64, h: 150, l: 'person', c: 0.88, p: 1 },
+    { x: 548, y: 266, w: 122, h: 74, l: 'dog', c: 0.77 },
+    { x: 554, y: 186, w: 122, h: 60, l: 'bench', c: 0.52 },
+    { x: 634, y: 24, w: 60, h: 122, l: 'traffic light', c: 0.86 }
+  ];
+  const bx = boxes.map((b, i) => {
+    const tw = b.l.length * 9 + 48, tx = Math.min(b.x, 716 - tw);
+    return '<g class="box" data-p="' + (b.p ? 1 : 0) + '" style="transform-box:fill-box;transform-origin:center;opacity:0;transform:scale(.6);transition:opacity .35s,transform .35s">' +
+    '<rect x="' + b.x + '" y="' + b.y + '" width="' + b.w + '" height="' + b.h + '" fill="none" stroke="' + C.acc + '" stroke-width="3"/>' +
+    '<rect x="' + tx + '" y="' + (b.y - 22) + '" width="' + tw + '" height="22" fill="' + C.acc + '"/>' +
+    '<text x="' + (tx + 6) + '" y="' + (b.y - 6) + '" font-size="15" font-weight="600" fill="#fff" class="mono">' + b.l + ' ' + b.c.toFixed(2) + '</text></g>'; }).join('');
+  svg.innerHTML = scene + '<rect id="yolo-flash" width="720" height="400" fill="' + C.acc + '" opacity="0" style="transition:opacity .25s"/>' + bx +
+    '<text id="yolo-cap" x="360" y="30" text-anchor="middle" font-size="18" font-weight="600" fill="' + C.fg + '" opacity="0" style="transition:opacity .3s">the whole image, one pass</text>';
+  let mode = 'all';
+  function apply(){
+    $$('.box', svg).forEach(g => { const keep = mode === 'all' || g.dataset.p === '1'; g.style.opacity = keep ? 1 : 0.12; });
+    $('#yolo-all').classList.toggle('on', mode === 'all'); $('#yolo-person').classList.toggle('on', mode === 'person');
+  }
+  function play(){
+    clearTimers();
+    const fl = $('#yolo-flash', svg), cap = $('#yolo-cap', svg);
+    $$('.box', svg).forEach(g => { g.style.opacity = 0; g.style.transform = 'scale(.6)'; });
+    if (RM) { $$('.box', svg).forEach(g => { g.style.transform = 'none'; }); apply(); return; }
+    cap.setAttribute('opacity', 1);
+    fl.setAttribute('opacity', .45);
+    later(() => fl.setAttribute('opacity', 0), 350);
+    later(() => { $$('.box', svg).forEach(g => { g.style.transform = 'none'; }); apply(); }, 700);
+    later(() => cap.setAttribute('opacity', 0), 2200);
+  }
+  $('#yolo-all').onclick = () => { mode = 'all'; apply(); };
+  $('#yolo-person').onclick = () => { mode = 'person'; apply(); };
+  $('#yolo-replay').onclick = play;
+  hooks['s-yolo'] = { enter(){ mode = 'all'; play(); }, step(k){ if (k >= 3 && mode !== 'person') { mode = 'person'; apply(); } } };
+})();
+
+/* ---------- 5 · same label ---------- */
+(function(){
+  const svg = $('#same-svg');
+  function figure(x, overalls){
+    let s = '<g transform="translate(' + x + ',0)">';
+    s += '<circle cx="0" cy="70" r="24" fill="' + C.skin + '"/><rect x="-8" y="92" width="16" height="10" fill="' + C.skin + '"/>';
+    if (overalls) {
+      s += '<rect x="-38" y="100" width="76" height="90" rx="8" fill="#d9d6cf"/>' + // shirt
+        '<rect x="-24" y="100" width="48" height="34" rx="3" fill="' + C.red + '"/>' + // bib
+        '<rect x="-22" y="92" width="7" height="14" fill="' + C.red + '"/><rect x="15" y="92" width="7" height="14" fill="' + C.red + '"/>' +
+        '<rect x="-38" y="134" width="76" height="60" fill="' + C.red + '"/>' +
+        '<rect x="-36" y="194" width="32" height="64" fill="' + C.red + '"/><rect x="4" y="194" width="32" height="64" fill="' + C.red + '"/>' +
+        '<rect x="-50" y="104" width="13" height="70" rx="6" fill="#d9d6cf"/><rect x="37" y="104" width="13" height="70" rx="6" fill="#d9d6cf"/>';
+    } else {
+      s += '<rect x="-38" y="100" width="76" height="90" rx="8" fill="' + C.dark + '"/>' +
+        '<rect x="-36" y="190" width="32" height="68" fill="' + C.acc + '"/><rect x="4" y="190" width="32" height="68" fill="' + C.acc + '"/>' +
+        '<rect x="-50" y="104" width="13" height="70" rx="6" fill="' + C.skin + '"/><rect x="37" y="104" width="13" height="70" rx="6" fill="' + C.skin + '"/>';
+    }
+    s += '<rect x="-38" y="256" width="34" height="12" rx="3" fill="' + C.dark + '"/><rect x="4" y="256" width="34" height="12" rx="3" fill="' + C.dark + '"/>';
+    s += '</g>';
+    return s;
+  }
+  function box(x, label){
+    return '<g class="sbox" style="opacity:0;transition:opacity .4s"><rect x="' + (x - 62) + '" y="36" width="124" height="244" fill="none" stroke="' + C.acc + '" stroke-width="3" stroke-dasharray="8 5"/>' +
+      '<rect x="' + (x - 62) + '" y="12" width="124" height="24" fill="' + C.acc + '"/><text x="' + x + '" y="29" text-anchor="middle" font-size="16" font-weight="600" fill="#fff" class="mono">' + label + '</text></g>';
+  }
+  svg.innerHTML = '<rect width="520" height="360" rx="12" fill="' + C.floor + '"/>' + figure(150, true) + figure(370, false) + box(150, 'person 0.91') + box(370, 'person 0.89') +
+    '<text x="150" y="330" text-anchor="middle" font-size="18" fill="' + C.muted + '">mechanic in overalls</text><text x="370" y="330" text-anchor="middle" font-size="18" fill="' + C.muted + '">visitor</text>';
+  hooks['s-same'] = { enter(){ const b = $$('.sbox', svg); b.forEach(g => g.style.opacity = 0); later(() => b[0].style.opacity = 1, RM ? 0 : 500); later(() => b[1].style.opacity = 1, RM ? 0 : 900); } };
+})();
+
+/* ---------- 6 · mask (canvas) ---------- */
+(function(){
+  const wrap = $('#mask-panels');
+  const W = 120, H = 160, S = 2;
+  const panels = [
+    { name: 'worker · bright camera', overalls: true, hue: 2, sat: 200, val: 205, hn: 2 },
+    { name: 'worker · dark corner', overalls: true, hue: 10, sat: 150, val: 70, hn: 7 },
+    { name: 'worker · orange light', overalls: true, hue: 15, sat: 195, val: 170, hn: 2 },
+    { name: 'visitor · red toolbox', overalls: false, toolbox: true, hue: 3, sat: 225, val: 190, hn: 2 }
+  ];
+  function hsv2rgb(h, s, v){ // OpenCV units: h 0-179, s,v 0-255
+    const hh = (h * 2) / 60, c = (v / 255) * (s / 255), x = c * (1 - Math.abs(hh % 2 - 1)), m = v / 255 - c;
+    let r = 0, g = 0, b = 0;
+    if (hh < 1) [r, g, b] = [c, x, 0]; else if (hh < 2) [r, g, b] = [x, c, 0]; else if (hh < 3) [r, g, b] = [0, c, x];
+    else if (hh < 4) [r, g, b] = [0, x, c]; else if (hh < 5) [r, g, b] = [x, 0, c]; else [r, g, b] = [c, 0, x];
+    return [(r + m) * 255, (g + m) * 255, (b + m) * 255];
+  }
+  function rgb2hsv(r, g, b){
+    const mx = Math.max(r, g, b), mn = Math.min(r, g, b), d = mx - mn;
+    let h = 0;
+    if (d > 0) { if (mx === r) h = 60 * (((g - b) / d) % 6); else if (mx === g) h = 60 * ((b - r) / d + 2); else h = 60 * ((r - g) / d + 4); }
+    if (h < 0) h += 360;
+    return [h / 2, mx === 0 ? 0 : 255 * d / mx, mx];
+  }
+  // paint a panel into an RGB buffer, with per-pixel noise in HSV
+  function paint(p){
+    const rnd = rng(p.hue * 97 + 11), buf = new Uint8ClampedArray(W * H * 4);
+    const px = (x, y, h, s, v, hn, sn, vn) => {
+      const i = (y * W + x) * 4;
+      let hh = h + (rnd() - .5) * 2 * hn; if (hh < 0) hh += 180; if (hh >= 180) hh -= 180;
+      const ss = Math.max(0, Math.min(255, s + (rnd() - .5) * 2 * sn)), vv = Math.max(0, Math.min(255, v + (rnd() - .5) * 2 * vn));
+      const c = hsv2rgb(hh, ss, vv); buf[i] = c[0]; buf[i + 1] = c[1]; buf[i + 2] = c[2]; buf[i + 3] = 255;
+    };
+    const rect = (x0, y0, w, h, H_, S_, V_, hn, sn, vn) => { for (let y = y0; y < y0 + h; y++) for (let x = x0; x < x0 + w; x++) if (x >= 0 && x < W && y >= 0 && y < H) px(x, y, H_, S_, V_, hn, sn, vn); };
+    const light = p.val / 205;
+    // wall and floor
+    rect(0, 0, W, 105, 24, 18, 165 * light, 6, 6, 10);
+    rect(0, 105, W, 55, 22, 26, 120 * light, 6, 6, 10);
+    // head
+    for (let y = 16; y < 46; y++) for (let x = 46; x < 76; x++) if ((x - 60) ** 2 + (y - 31) ** 2 < 180) px(x, y, 12, 95, 215 * light, 2, 10, 8);
+    if (p.overalls) {
+      rect(38, 46, 44, 54, p.hue, p.sat, p.val, p.hn, 18, 14);          // torso
+      rect(46, 46, 28, 9, 25, 10, 200 * light, 4, 6, 8);                // collar of the shirt
+      rect(24, 49, 12, 44, p.hue, p.sat, p.val, p.hn, 18, 14);          // sleeves
+      rect(84, 49, 12, 44, p.hue, p.sat, p.val, p.hn, 18, 14);
+      rect(40, 100, 17, 50, p.hue, p.sat, p.val * .9, p.hn, 18, 14);    // legs
+      rect(63, 100, 17, 50, p.hue, p.sat, p.val * .9, p.hn, 18, 14);
+    } else {
+      rect(38, 46, 44, 54, 0, 8, 45, 10, 6, 10);                        // dark T-shirt
+      rect(24, 49, 12, 44, 12, 95, 215 * light, 2, 10, 8);              // arms
+      rect(84, 49, 12, 44, 12, 95, 215 * light, 2, 10, 8);
+      rect(40, 100, 17, 50, 110, 120, 110, 4, 12, 12);                  // jeans
+      rect(63, 100, 17, 50, 110, 120, 110, 4, 12, 12);
+    }
+    rect(38, 150, 21, 8, 0, 5, 35, 6, 4, 6); rect(61, 150, 21, 8, 0, 5, 35, 6, 4, 6); // boots
+    if (p.toolbox) {
+      rect(4, 118, 34, 24, p.hue, p.sat, p.val, p.hn, 14, 12); rect(14, 112, 14, 6, 0, 5, 40, 4, 4, 6);
+      for (let x = 0; x < W; x += 12) rect(x, 142, 6, 7, 0, 230, 200, 2, 10, 10); // warning stripes
+      for (let x = 6; x < W; x += 12) rect(x, 142, 6, 7, 0, 0, 230, 2, 4, 6);
+    }
+    return buf;
+  }
+  const state = { hue: 10, sat: 20, val: 20, thr: 15 };
+  const items = panels.map(p => {
+    const d = document.createElement('div'); d.className = 'col'; d.style.cssText = 'align-items:center;gap:6px;flex:1;min-width:0';
+    d.innerHTML = '<span class="small" style="font-size:15px;white-space:nowrap">' + p.name + '</span>' +
+      '<canvas width="' + W * S + '" height="' + H * S + '" style="width:138px;height:184px;border-radius:8px;max-width:100%"></canvas>' +
+      '<canvas width="' + W * S + '" height="' + H * S + '" style="width:138px;height:184px;border-radius:8px;max-width:100%"></canvas>' +
+      '<div style="font-family:var(--mono);font-size:22px;font-variant-numeric:tabular-nums" class="pct">0%</div><span class="pill bad">no overalls</span>';
+    wrap.appendChild(d);
+    const buf = paint(p);
+    const cv = $$('canvas', d), ctx = cv[0].getContext('2d');
+    const img = new ImageData(buf, W, H);
+    const tmp = document.createElement('canvas'); tmp.width = W; tmp.height = H; tmp.getContext('2d').putImageData(img, 0, 0);
+    ctx.imageSmoothingEnabled = false; ctx.drawImage(tmp, 0, 0, W * S, H * S);
+    return { p, buf, mctx: cv[1].getContext('2d'), pct: $('.pct', d), pill: $('.pill', d), tmp };
+  });
+  function update(){
+    const hw = state.hue, lo2 = 180 - hw;
+    $('#mk-hue-v').textContent = '0–' + hw + ' and ' + lo2 + '–179';
+    $('#mk-sat-v').textContent = state.sat; $('#mk-val-v').textContent = state.val; $('#mk-thr-v').textContent = state.thr + '%';
+    items.forEach(it => {
+      const out = new Uint8ClampedArray(W * H * 4); let n = 0;
+      for (let i = 0; i < W * H; i++) {
+        const hsv = rgb2hsv(it.buf[i * 4], it.buf[i * 4 + 1], it.buf[i * 4 + 2]);
+        const keep = (hsv[0] <= hw || hsv[0] >= lo2) && hsv[1] >= state.sat && hsv[2] >= state.val;
+        const v = keep ? 255 : 28; out[i * 4] = v; out[i * 4 + 1] = v; out[i * 4 + 2] = v; out[i * 4 + 3] = 255; if (keep) n++;
+      }
+      const share = 100 * n / (W * H);
+      it.tmp.getContext('2d').putImageData(new ImageData(out, W, H), 0, 0);
+      it.mctx.imageSmoothingEnabled = false; it.mctx.drawImage(it.tmp, 0, 0, W * S, H * S);
+      it.pct.textContent = share.toFixed(0) + '%';
+      const ok = share >= state.thr;
+      it.pill.className = 'pill ' + (ok ? 'ok' : 'bad'); it.pill.textContent = ok ? 'overalls' : 'no overalls';
+    });
+  }
+  ['hue', 'sat', 'val', 'thr'].forEach(k => { $('#mk-' + k).addEventListener('input', e => { state[k] = +e.target.value; update(); }); });
+  $('#mk-reset').onclick = () => { state.hue = 10; state.sat = 20; state.val = 20; state.thr = 15; $('#mk-hue').value = 10; $('#mk-sat').value = 20; $('#mk-val').value = 20; $('#mk-thr').value = 15; update(); };
+  update();
+})();
+
+/* ---------- 7 · workflow ---------- */
+(function(){
+  const row = $('#flow-row');
+  const people = [
+    { id: 'a', x: 250, y: 110, c: C.red, lab: 'overalls', ok: true },
+    { id: 'b', x: 300, y: 185, c: C.red, lab: 'overalls', ok: true },
+    { id: 'v', x: 70, y: 200, c: C.polo, lab: 'no_overalls', ok: false },
+    { id: 'i', x: 200, y: 150, c: C.dark, lab: 'no_overalls', ok: false, inZone: true }
+  ];
+  function scene(mode){
+    let s = '<svg viewBox="0 0 360 240" width="100%" style="border-radius:10px">' +
+      floorScene(360, 240, { zone: [150, 60, 170, 130], lifts: [[165, 75], [220, 135]] }) +
+      people.map(p => topPerson(p.x, p.y, p.c, null, 11)).join('');
+    if (mode !== 'frame') {
+      s += people.map(p => {
+        const col = mode === 'boxes' ? C.acc : (p.ok ? C.green : C.red);
+        const txt = mode === 'boxes' ? 'person' : p.lab;
+        return '<rect x="' + (p.x - 17) + '" y="' + (p.y - 17) + '" width="34" height="34" fill="none" stroke="' + col + '" stroke-width="3"/>' +
+          '<rect x="' + (p.x - 17) + '" y="' + (p.y + 17) + '" width="' + (txt.length * 7 + 8) + '" height="15" fill="' + col + '"/>' +
+          '<text x="' + (p.x - 13) + '" y="' + (p.y + 28) + '" font-size="11" font-weight="600" fill="#fff" class="mono">' + txt + '</text>';
+      }).join('');
+    }
+    if (mode === 'cls') {
+      s = s.replace('stroke="' + C.zoneInk + '" stroke-width="3"', 'stroke="' + C.red + '" stroke-width="5"');
+      s += alertBadge(235, 32).replace('opacity="0"', 'opacity="1"');
+    }
+    return s + '</svg>';
+  }
+  const stages = [
+    ['1 · The camera frame', 'One frame of the video. The zone is marked by hand on the first frame.', 'frame', ''],
+    ['2 · YOLO finds the people', 'One box per person, with its confidence. Everything else is ignored.', 'boxes', 'frag'],
+    ['3 · The classifier decides', 'Each crop gets overalls or no_overalls. A red box in the zone raises the alert.', 'cls', 'frag']
+  ];
+  row.innerHTML = stages.map((st, i) =>
+    '<div class="' + st[3] + '" style="display:flex;flex:' + (i ? 1.12 : 1) + ';gap:14px;min-width:0">' +
+    (i ? '<div class="arrow" style="padding-top:120px">→</div>' : '') +
+    '<div class="col" style="flex:1;gap:8px"><div class="eyebrow">' + st[0] + '</div>' + scene(st[2]) + '<p class="small">' + st[1] + '</p></div></div>').join('');
+})();
+
+/* ---------- 8 · timer ---------- */
+(function(){
+  let left = 900, run = false, tick = null;
+  const out = $('#timer');
+  function draw(){ const m = Math.floor(left / 60), s = left % 60; out.textContent = m + ':' + (s < 10 ? '0' : '') + s; out.style.color = left <= 60 ? 'var(--red)' : ''; }
+  $('#timer-start').onclick = () => {
+    run = !run; $('#timer-start').textContent = run ? 'Pause' : 'Start';
+    if (run) tick = setInterval(() => { if (left > 0) { left--; draw(); } else { clearInterval(tick); run = false; $('#timer-start').textContent = 'Start'; } }, 1000); else clearInterval(tick);
+  };
+  $('#timer-reset').onclick = () => { clearInterval(tick); run = false; left = 900; $('#timer-start').textContent = 'Start'; draw(); };
+  draw();
+})();
+
+/* ---------- 9 · bridge ---------- */
+(function(){
+  const sl = $('#br-sliders'), grid = $('#br-grid'), acc = $('#br-acc');
+  const names = ['hue window', 'min saturation', 'min value', 'red share'];
+  sl.innerHTML = names.map(n => '<div style="display:flex;align-items:center;gap:12px"><span class="small" style="width:130px">' + n + '</span><div style="flex:1;height:6px;border-radius:3px;background:var(--line);position:relative"><div class="knob" style="position:absolute;top:-8px;left:30%;width:22px;height:22px;border-radius:50%;background:var(--accent);transition:left 1.2s ease-in-out"></div></div></div>').join('');
+  const cells = [];
+  for (let i = 0; i < 48; i++) { const c = document.createElement('div'); c.className = 'cell'; c.style.cssText = 'height:30px;font-size:14px'; grid.appendChild(c); cells.push(c); }
+  const rnd = rng(7);
+  const target = cells.map(() => (rnd() - .5) * 1.6);
+  function frame(u){ // u in 0..1 over one training cycle
+    const amp = Math.max(0, 1 - u * 1.25);
+    cells.forEach((c, i) => { const v = target[i] + (Math.random() - .5) * 1.4 * amp; c.textContent = v.toFixed(1); c.style.background = 'color-mix(in srgb,' + (v > 0 ? 'var(--accent)' : 'var(--red)') + ' ' + Math.round(Math.abs(v) * 45) + '%,var(--code-bg))'; });
+    const a = 0.5 + 0.47 * (1 - Math.pow(1 - Math.min(1, u * 1.2), 2.2));
+    acc.textContent = a.toFixed(2);
+  }
+  hooks['s-bridge'] = {
+    enter(){
+      if (RM) { frame(1); return; }
+      every(() => { $$('.knob', sl).forEach(k => k.style.left = (10 + Math.random() * 80) + '%'); }, 1400);
+      let t = 0; every(() => { t = (t + 0.1) % 9; frame(Math.min(1, t / 7)); }, 100);
+    }
+  };
+})();
+
+/* ---------- 10 · pixels ---------- */
+(function(){
+  const wrap = $('#px-wrap'), read = $('#px-read');
+  const art = ['............', '.....hh.....', '.....hh.....', '....rrrr....', '...rrrrrr...', '...rrrrrr...', '...rrrrrr...', '....rrrr....', '....rrrr....', '....rr.rr...', '....rr.rr...', '....bb.bb...'];
+  const base = { '.': [150, 150, 156], h: [224, 180, 143], r: [201, 48, 40], b: [40, 40, 44] };
+  const rnd = rng(3);
+  const px = [];
+  for (let y = 0; y < 12; y++) for (let x = 0; x < 12; x++) { const b = base[art[y][x]], n = (rnd() - .5) * 28; px.push(b.map(v => Math.max(0, Math.min(255, Math.round(v + n + (rnd() - .5) * 8))))); }
+  function layer(ch){ // ch: -1 rgb, 0 r, 1 g, 2 b
+    const d = document.createElement('div'); d.className = 'grid pxl'; d.dataset.ch = ch;
+    d.style.cssText = 'position:absolute;inset:0;grid-template-columns:repeat(12,1fr);grid-template-rows:repeat(12,1fr);gap:3px;transition:transform .6s,opacity .6s;transform-style:preserve-3d';
+    px.forEach((p, i) => {
+      const c = document.createElement('div'); c.className = 'cell'; c.style.fontSize = '10px'; c.style.lineHeight = '1.1'; c.dataset.i = i;
+      if (ch < 0) { c.style.background = 'rgb(' + p.join(',') + ')'; c.innerHTML = '<span class="v" style="display:none;color:#fff;text-shadow:0 0 3px #000">' + p[0] + '<br>' + p[1] + '<br>' + p[2] + '</span>'; }
+      else { const g = p[ch]; c.style.background = 'rgb(' + g + ',' + g + ',' + g + ')'; c.style.color = g > 128 ? '#000' : '#fff'; c.textContent = g; c.style.fontSize = '11px'; }
+      d.appendChild(c);
+    });
+    return d;
+  }
+  const L = [layer(-1), layer(0), layer(1), layer(2)];
+  L.forEach(l => wrap.appendChild(l));
+  const names = ['red', 'green', 'blue'];
+  function mode(m){
+    ['px-pic', 'px-num', 'px-ch'].forEach((id, i) => $('#' + id).classList.toggle('on', i === ['pic', 'num', 'ch'].indexOf(m)));
+    $$('.v', L[0]).forEach(v => v.style.display = m === 'num' ? 'block' : 'none');
+    L[0].style.opacity = m === 'ch' ? 0 : 1; L[0].style.transform = m === 'ch' ? 'scale(.6)' : 'none';
+    for (let k = 1; k < 4; k++) {
+      L[k].style.opacity = m === 'ch' ? 1 : 0; L[k].style.pointerEvents = m === 'ch' ? 'auto' : 'none';
+      L[k].style.transform = m === 'ch' ? 'scale(.62) translate(' + ((k - 2) * 95) + 'px,' + ((k - 2) * -30) + 'px)' : 'none';
+      L[k].style.zIndex = k;
+    }
+    read.textContent = m === 'ch' ? 'three arrays: ' + names.join(', ') : 'hover a pixel';
+  }
+  $('#px-pic').onclick = () => mode('pic'); $('#px-num').onclick = () => mode('num'); $('#px-ch').onclick = () => mode('ch');
+  wrap.addEventListener('mouseover', e => {
+    const c = e.target.closest('.cell'); if (!c) return; const i = +c.dataset.i, p = px[i];
+    read.textContent = 'row ' + Math.floor(i / 12) + ', column ' + (i % 12) + ' · R ' + p[0] + ' · G ' + p[1] + ' · B ' + p[2];
+  });
+  hooks['s-array'] = { enter(){ mode('pic'); }, step(k){ } };
+  mode('pic');
+})();
+
+/* ---------- 11 · convolution ---------- */
+(function(){
+  const inp = [];
+  for (let y = 0; y < 7; y++) { const r = []; for (let x = 0; x < 7; x++) r.push((x >= 2 && x <= 4 && y >= 1 && y <= 5) ? 1 : 0); inp.push(r); }
+  const K = { v: [[1, 0, -1], [1, 0, -1], [1, 0, -1]], h: [[1, 1, 1], [0, 0, 0], [-1, -1, -1]], b: [[1, 1, 1], [1, 1, 1], [1, 1, 1]], r: [[1, -1, 0], [0, 1, -1], [-1, 0, 1]] };
+  let kname = 'v', pos = -1, playing = null;
+  const gIn = $('#cv-in'), gK = $('#cv-k'), gOut = $('#cv-out'), sum = $('#cv-sum');
+  const mk = (g, n, size) => { g.innerHTML = ''; const a = []; for (let i = 0; i < n; i++) { const c = document.createElement('div'); c.className = 'cell'; c.style.height = size + 'px'; g.appendChild(c); a.push(c); } return a; };
+  const cIn = mk(gIn, 49, 38), cK = mk(gK, 9, 38), cOut = mk(gOut, 25, 38);
+  inp.flat().forEach((v, i) => { cIn[i].textContent = v; cIn[i].style.background = v ? 'color-mix(in srgb,var(--fg) 75%,var(--code-bg))' : 'var(--code-bg)'; cIn[i].style.color = v ? 'var(--bg)' : 'var(--fg)'; });
+  function tint(c, v, max){ const p = Math.round(Math.abs(v) / max * 70); c.style.background = v === 0 ? 'var(--code-bg)' : 'color-mix(in srgb,' + (v > 0 ? 'var(--accent)' : 'var(--red)') + ' ' + p + '%,var(--code-bg))'; c.style.color = p > 45 ? 'var(--bg)' : 'var(--fg)'; }
+  function reset(){
+    clearInterval(playing); playing = null; $('#cv-play').textContent = 'Play';
+    const k = K[kname]; k.flat().forEach((v, i) => { cK[i].textContent = v; tint(cK[i], v, 1); });
+    cOut.forEach(c => { c.textContent = ''; c.style.background = 'var(--code-bg)'; c.style.outline = ''; });
+    cIn.forEach(c => c.style.outline = ''); sum.textContent = ''; pos = -1;
+    $$('[data-k]').forEach(b => b.classList.toggle('on', b.dataset.k === kname));
+  }
+  function stepConv(){
+    pos++; if (pos >= 25) { pos = 24; clearInterval(playing); playing = null; $('#cv-play').textContent = 'Play'; return; }
+    const oy = Math.floor(pos / 5), ox = pos % 5, k = K[kname]; let s = 0;
+    cIn.forEach(c => c.style.outline = ''); cOut.forEach(c => c.style.outline = '');
+    for (let dy = 0; dy < 3; dy++) for (let dx = 0; dx < 3; dx++) { s += inp[oy + dy][ox + dx] * k[dy][dx]; cIn[(oy + dy) * 7 + ox + dx].style.outline = '3px solid var(--accent)'; }
+    cOut[pos].textContent = s; tint(cOut[pos], s, kname === 'b' ? 9 : 3); cOut[pos].style.outline = '3px solid var(--accent)';
+    sum.textContent = '9 products → ' + s;
+  }
+  $('#cv-step').onclick = () => { if (pos >= 24) { reset(); } stepConv(); };
+  $('#cv-play').onclick = () => {
+    if (playing) { clearInterval(playing); playing = null; $('#cv-play').textContent = 'Play'; return; }
+    if (pos >= 24) reset();
+    $('#cv-play').textContent = 'Pause'; playing = setInterval(stepConv, RM ? 120 : 380); timers.add(playing);
+  };
+  $$('[data-k]').forEach(b => b.onclick = () => { kname = b.dataset.k; reset(); });
+  hooks['s-conv'] = { enter(){ reset(); }, leave(){ clearInterval(playing); playing = null; } };
+  reset();
+})();
+
+/* ---------- 12 · ReLU and pooling ---------- */
+(function(){
+  const vals = [3, -2, 1, -5, -1, 4, -3, 2, 2, -4, 5, -1, -3, 1, -2, 6];
+  const mk = (g, n) => { g.innerHTML = ''; const a = []; for (let i = 0; i < n; i++) { const c = document.createElement('div'); c.className = 'cell'; c.style.cssText = 'height:52px;font-size:22px'; g.appendChild(c); a.push(c); } return a; };
+  const cIn = mk($('#rp-in'), 16), cMid = mk($('#rp-mid'), 16), cOut = mk($('#rp-out'), 4);
+  const tint = (c, v) => { c.style.background = v === 0 ? 'var(--code-bg)' : 'color-mix(in srgb,' + (v > 0 ? 'var(--accent)' : 'var(--red)') + ' ' + Math.round(Math.abs(v) / 6 * 70) + '%,var(--code-bg))'; c.style.color = Math.abs(v) >= 4 ? 'var(--bg)' : 'var(--fg)'; };
+  function reset(){ vals.forEach((v, i) => { cIn[i].textContent = v; tint(cIn[i], v); cMid[i].textContent = ''; cMid[i].style.background = 'var(--code-bg)'; cMid[i].style.outline = ''; }); cOut.forEach(c => { c.textContent = ''; c.style.background = 'var(--code-bg)'; }); }
+  function relu(){
+    vals.forEach((v, i) => { later(() => { const r = Math.max(0, v); cMid[i].textContent = r; tint(cMid[i], r); if (v < 0) { cMid[i].style.outline = '3px solid var(--red)'; later(() => cMid[i].style.outline = '', 500); } }, RM ? 0 : i * 70); });
+  }
+  function pool(){
+    if (!cMid[0].textContent) relu();
+    const q = [[0, 1, 4, 5], [2, 3, 6, 7], [8, 9, 12, 13], [10, 11, 14, 15]];
+    q.forEach((ix, j) => { later(() => {
+      cMid.forEach(c => c.style.outline = ''); ix.forEach(i => cMid[i].style.outline = '3px solid var(--accent)');
+      const m = Math.max(...ix.map(i => Math.max(0, vals[i]))); cOut[j].textContent = m; tint(cOut[j], m);
+    }, RM ? 0 : 500 + j * 700); });
+    later(() => cMid.forEach(c => c.style.outline = ''), RM ? 0 : 500 + 4 * 700);
+  }
+  $('#rp-relu').onclick = relu; $('#rp-pool').onclick = pool;
+  hooks['s-pool'] = { extra: 2, enter(){ reset(); }, step(k){ if (k === 0) reset(); if (k >= 1 && !cMid[0].textContent) relu(); if (k >= 2 && !cOut[0].textContent) pool(); } };
+  reset();
+})();
+
+/* ---------- 13 · flatten and linear ---------- */
+(function(){
+  const rnd = rng(11);
+  const maps = [0, 1, 2, 3].map(k => { const m = []; for (let y = 0; y < 8; y++) for (let x = 0; x < 8; x++) { const cx = 2 + k * 1.3, cy = 3 + (k % 2) * 2; m.push(Math.max(0, Math.min(1, Math.exp(-((x - cx) ** 2 + (y - cy) ** 2) / 6) + (rnd() - .5) * .3))); } return m; });
+  const col = v => 'color-mix(in srgb,var(--accent) ' + Math.round(v * 85) + '%,var(--code-bg))';
+  const st = $('#fl-stack');
+  st.innerHTML = maps.map((m, k) => '<div class="grid" style="position:absolute;left:' + (k * 14) + 'px;top:' + (42 - k * 14) + 'px;width:104px;grid-template-columns:repeat(8,1fr);gap:1px;background:var(--bg);padding:2px;border:1px solid var(--line);border-radius:4px">' + m.map(v => '<div style="aspect-ratio:1;background:' + col(v) + '"></div>').join('') + '</div>').join('');
+  const row = $('#fl-row');
+  row.innerHTML = maps.flat().map((v, i) => '<div class="fc" style="aspect-ratio:1;background:' + col(v) + ';opacity:0;transition:opacity .25s;transition-delay:' + (RM ? 0 : i * 7) + 'ms"></div>').join('');
+  // neuron
+  $('#fl-neuron').innerHTML = [0, 1, 2, 3, 4, 5].map(i => '<line x1="20" y1="' + (20 + i * 22) + '" x2="150" y2="75" stroke="var(--line)" stroke-width="2"/>').join('') +
+    '<text x="12" y="150" font-size="13" fill="var(--muted)">256 inputs × weights</text>' +
+    '<circle cx="165" cy="75" r="30" fill="var(--panel)" stroke="var(--accent)" stroke-width="3"/><text x="165" y="82" text-anchor="middle" font-size="22" fill="var(--fg)">Σ</text>' +
+    '<text x="165" y="125" text-anchor="middle" font-size="13" fill="var(--muted)">+ bias</text>' +
+    '<line x1="195" y1="75" x2="275" y2="75" stroke="var(--accent)" stroke-width="3"/><polygon points="275,69 287,75 275,81" fill="var(--accent)"/><text x="235" y="65" text-anchor="middle" font-size="14" fill="var(--fg)">score</text>';
+  // sigmoid
+  const sg = $('#fl-sig'); const X = x => 30 + (x + 6) / 12 * 270, Y = p => 140 - p * 120;
+  let path = ''; for (let x = -6; x <= 6; x += .25) path += (x === -6 ? 'M' : 'L') + X(x) + ' ' + Y(1 / (1 + Math.exp(-x))) + ' ';
+  sg.innerHTML = '<line x1="30" y1="140" x2="300" y2="140" stroke="var(--line)" stroke-width="2"/><line x1="30" y1="20" x2="30" y2="140" stroke="var(--line)" stroke-width="2"/>' +
+    '<line x1="30" y1="' + Y(.5) + '" x2="300" y2="' + Y(.5) + '" stroke="var(--muted)" stroke-dasharray="6 5"/><text x="304" y="' + (Y(.5) + 5) + '" font-size="13" fill="var(--muted)">0.5</text>' +
+    '<text x="30" y="162" font-size="13" fill="var(--muted)" text-anchor="middle">−6</text><text x="165" y="162" font-size="13" fill="var(--muted)" text-anchor="middle">score 0</text><text x="300" y="162" font-size="13" fill="var(--muted)" text-anchor="middle">6</text>' +
+    '<text x="16" y="24" font-size="13" fill="var(--muted)" text-anchor="middle">1</text><text x="16" y="144" font-size="13" fill="var(--muted)" text-anchor="middle">0</text>' +
+    '<path d="' + path + '" fill="none" stroke="var(--accent)" stroke-width="3"/><circle id="fl-dot" r="8" fill="var(--accent)" cx="' + X(2.6) + '" cy="' + Y(1 / (1 + Math.exp(-2.6))) + '"/>' +
+    '<text x="60" y="36" font-size="14" fill="var(--fg)">sigmoid</text>';
+  function setScore(s){
+    const p = 1 / (1 + Math.exp(-s)); $('#fl-score-v').textContent = s.toFixed(1); $('#fl-prob').textContent = p.toFixed(2);
+    const d = $('#fl-dot'); d.setAttribute('cx', X(s)); d.setAttribute('cy', Y(p));
+    const l = $('#fl-lab'); l.className = 'pill ' + (p >= .5 ? 'ok' : 'bad'); l.textContent = p >= .5 ? 'overalls' : 'no_overalls';
+  }
+  $('#fl-score').addEventListener('input', e => setScore(+e.target.value)); setScore(2.6);
+  hooks['s-linear'] = { enter(){ $$('.fc', row).forEach(c => c.style.opacity = 0); later(() => $$('.fc', row).forEach(c => c.style.opacity = 1), 300); } };
+})();
+
+/* ---------- 14 · the whole model ---------- */
+(function(){
+  const svg = $('#md-svg');
+  const Y0 = 100, xs = [66, 250, 434, 612, 790, 950];
+  function stack(x, y, n, s, gap){ let out = ''; for (let i = n - 1; i >= 0; i--) out += '<rect x="' + (x - s / 2 + i * gap) + '" y="' + (y - s / 2 - i * gap) + '" width="' + s + '" height="' + s + '" rx="3" fill="var(--code-bg)" stroke="var(--accent)" stroke-width="2"/>'; return out; }
+  const glyphs = [
+    { x: xs[0], g: stack(xs[0], Y0, 3, 56, 8), t: '(3, 64, 64)', cap: 'input crop', hw: 54 },
+    { x: xs[1], g: stack(xs[1], Y0, 4, 56, 8), t: '(4, 64, 64)', cap: '4 feature maps', hw: 54 },
+    { x: xs[2], g: stack(xs[2], Y0, 4, 56, 8), t: '(4, 64, 64)', cap: 'negatives → 0', hw: 54 },
+    { x: xs[3], g: stack(xs[3], Y0, 4, 26, 8), t: '(4, 8, 8)', cap: '4 maps of 8 × 8', hw: 40 },
+    { x: xs[4], g: '<rect x="' + (xs[4] - 60) + '" y="' + (Y0 - 8) + '" width="120" height="16" rx="3" fill="var(--code-bg)" stroke="var(--accent)" stroke-width="2"/>' + [...Array(11)].map((_, i) => '<line x1="' + (xs[4] - 50 + i * 10) + '" y1="' + (Y0 - 8) + '" x2="' + (xs[4] - 50 + i * 10) + '" y2="' + (Y0 + 8) + '" stroke="var(--accent)" stroke-width="1"/>').join(''), t: '256', cap: 'one row', hw: 62 },
+    { x: xs[5], g: '<circle cx="' + xs[5] + '" cy="' + Y0 + '" r="16" fill="var(--code-bg)" stroke="var(--accent)" stroke-width="2"/>', t: '1', cap: 'score → sigmoid', hw: 18 }
+  ];
+  const arrows = [
+    { lab: 'Conv2d', p: '3 × 4 × 9 + 4 = 112' },
+    { lab: 'ReLU', p: '0' },
+    { lab: 'MaxPool2d(8)', p: '0' },
+    { lab: 'Flatten', p: '0' },
+    { lab: 'Linear(256, 1)', p: '256 + 1 = 257' }
+  ];
+  let s = '';
+  glyphs.forEach((g, i) => { s += '<g class="gl" data-i="' + i + '" style="transition:opacity .4s">' + g.g + '<text class="mono" x="' + g.x + '" y="' + (Y0 + 70) + '" text-anchor="middle" font-size="15" font-weight="500" fill="var(--fg)">' + g.t + '</text><text x="' + g.x + '" y="' + (Y0 + 90) + '" text-anchor="middle" font-size="13" fill="var(--muted)">' + g.cap + '</text></g>'; });
+  arrows.forEach((a, i) => {
+    const A = glyphs[i], B = glyphs[i + 1], x1 = A.x + A.hw + 4, x2 = B.x - B.hw - 6, mx = (x1 + x2) / 2;
+    s += '<g class="ar" data-i="' + i + '" style="transition:opacity .4s" stroke="var(--muted)" stroke-width="3" marker-end="url(#mdarrow)"><line x1="' + x1 + '" y1="' + Y0 + '" x2="' + x2 + '" y2="' + Y0 + '"/></g>' +
+      '<text class="arl mono" data-i="' + i + '" x="' + mx + '" y="' + (Y0 - 66) + '" text-anchor="middle" font-size="15" fill="var(--fg)" style="transition:opacity .4s">' + a.lab + '</text>' +
+      (a.p !== '0' ? '<text class="arp mono" x="' + mx + '" y="' + (Y0 + 48) + '" text-anchor="middle" font-size="13" fill="var(--accent)" font-weight="500" opacity="0" style="transition:opacity .4s">' + a.p + '</text>' : '');
+  });
+  svg.innerHTML = '<defs><marker id="mdarrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="var(--muted)"/></marker></defs>' + s +
+    '<text class="arp" x="500" y="232" text-anchor="middle" font-size="22" font-weight="700" fill="var(--accent)" opacity="0" style="transition:opacity .4s">112 + 257 = 369 parameters, and training adjusts every one of them</text>';
+  const lines = $$('#md-code [data-l]');
+  function state(k){
+    $$('.gl', svg).forEach(g => { const i = +g.dataset.i; g.style.opacity = (i <= k || k >= 6) ? 1 : .15; $$('rect,circle', g).forEach(r => r.setAttribute('stroke-width', i === k && k >= 1 && k <= 5 ? 4 : 2)); });
+    $$('.ar,.arl', svg).forEach(a => { const i = +a.dataset.i; a.style.opacity = (i < k) ? 1 : .15; });
+    $$('.arp', svg).forEach(t => t.setAttribute('opacity', k >= 6 ? 1 : 0));
+    lines.forEach((l, i) => l.classList.toggle('hl', i === k - 1 || k >= 6));
+  }
+  hooks['s-model'] = { extra: 6, step: state };
+  state(0);
+})();
+
+/* ---------- 15 · training ---------- */
+(function(){
+  const bowl = $('#tr-bowl'), curve = $('#tr-curve');
+  const L = w => 0.05 + 0.64 * (w / 3) ** 2;
+  const BX = w => 180 + w * 46, BY = l => 205 - l * 180;
+  let p = ''; for (let w = -3.6; w <= 3.61; w += .1) p += (w < -3.5 ? 'M' : 'L') + BX(w).toFixed(1) + ' ' + BY(Math.min(1.05, L(w))).toFixed(1) + ' ';
+  bowl.innerHTML = '<path d="' + p + '" fill="none" stroke="var(--line)" stroke-width="4"/>' +
+    '<text x="180" y="226" text-anchor="middle" font-size="13" fill="var(--muted)">one parameter, e.g., one number of a kernel</text><text x="14" y="20" font-size="13" fill="var(--muted)">loss</text>' +
+    '<g id="tr-steps"></g><circle id="tr-ball" r="9" fill="var(--accent)" cx="' + BX(3) + '" cy="' + BY(L(3)) + '" style="transition:cx .3s,cy .3s"/>';
+  const CX = e => 40 + e / 12 * 280, CY = l => 200 - l * 170;
+  curve.innerHTML = '<line x1="40" y1="200" x2="330" y2="200" stroke="var(--line)" stroke-width="2"/><line x1="40" y1="20" x2="40" y2="200" stroke="var(--line)" stroke-width="2"/>' +
+    '<line x1="40" y1="' + CY(.69) + '" x2="330" y2="' + CY(.69) + '" stroke="var(--red)" stroke-dasharray="6 5"/><text x="330" y="' + (CY(.69) - 5) + '" text-anchor="end" font-size="13" fill="var(--red)">0.69 random</text>' +
+    '<text x="185" y="224" text-anchor="middle" font-size="13" fill="var(--muted)">epochs</text><text x="14" y="20" font-size="13" fill="var(--muted)">loss</text>' +
+    '<text x="36" y="204" text-anchor="end" font-size="12" fill="var(--muted)">0</text><text x="36" y="' + (CY(1) + 4) + '" text-anchor="end" font-size="12" fill="var(--muted)">1</text>' +
+    '<polyline id="tr-line" fill="none" stroke="var(--accent)" stroke-width="3" stroke-linejoin="round" points=""/><g id="tr-pts"></g>';
+  let lr = 0.01;
+  const F = { 0.001: r => 0.9 + 0.03 * r, 0.01: r => 0.42 + 0.12 * r, 0.1: r => -(0.8 + 0.45 * r) };
+  function run(){
+    clearTimers(); const rnd = rng(lr === 0.1 ? 5 : 9);
+    let w = 3; const pts = [[0, L(w)]]; $('#tr-line').setAttribute('points', CX(0) + ',' + CY(L(w))); $('#tr-pts').innerHTML = ''; $('#tr-steps').innerHTML = '';
+    const ball = $('#tr-ball'); ball.setAttribute('cx', BX(w)); ball.setAttribute('cy', BY(L(w)));
+    for (let e = 1; e <= 12; e++) later(() => {
+      w = w * F[lr](rnd()); w = Math.max(-3.6, Math.min(3.6, w)); const l = Math.min(1.05, L(w)); pts.push([e, l]);
+      $('#tr-steps').innerHTML += '<circle cx="' + BX(w) + '" cy="' + BY(l) + '" r="4" fill="var(--accent)" opacity=".35"/>';
+      ball.setAttribute('cx', BX(w)); ball.setAttribute('cy', BY(l));
+      $('#tr-line').setAttribute('points', pts.map(q => CX(q[0]) + ',' + CY(Math.min(1, q[1]))).join(' '));
+    }, RM ? 0 : e * 320);
+  }
+  $('#tr-run').onclick = run;
+  $$('[data-lr]').forEach(b => b.onclick = () => { lr = +b.dataset.lr; $$('[data-lr]').forEach(x => x.classList.toggle('on', x === b)); run(); });
+  hooks['s-train'] = { enter(){ run(); } };
+})();
+
+/* ---------- 16 · challenge bars ---------- */
+(function(){
+  const svg = $('#ch-bars');
+  const bars = [['chance', 0.5, 'var(--muted)'], ['the mask', 0.68, 'var(--red)'], ['first model', 0.72, 'var(--accent)'], ['your model', null, 'none']];
+  const Y = v => 250 - v * 220;
+  svg.innerHTML = '<line x1="40" y1="250" x2="500" y2="250" stroke="var(--line)" stroke-width="2"/>' +
+    '<line x1="40" y1="' + Y(.95) + '" x2="500" y2="' + Y(.95) + '" stroke="var(--green)" stroke-width="2" stroke-dasharray="8 6"/><text x="500" y="' + (Y(.95) - 8) + '" text-anchor="end" font-size="16" font-weight="700" fill="var(--green)">target 0.95</text>' +
+    bars.map((b, i) => { const x = 60 + i * 115; return b[1] === null ?
+      '<rect x="' + x + '" y="' + Y(.95) + '" width="80" height="' + (250 - Y(.95)) + '" fill="none" stroke="var(--muted)" stroke-dasharray="6 5" stroke-width="2"/><text x="' + (x + 40) + '" y="' + (Y(.95) + 40) + '" text-anchor="middle" font-size="28" fill="var(--muted)">?</text><text x="' + (x + 40) + '" y="274" text-anchor="middle" font-size="15" fill="var(--fg)">' + b[0] + '</text>' :
+      '<rect class="bar" x="' + x + '" y="250" width="80" height="0" fill="' + b[2] + '" data-v="' + b[1] + '" style="transition:y .9s,height .9s"/><text class="bv mono" x="' + (x + 40) + '" y="' + (Y(b[1]) - 8) + '" text-anchor="middle" font-size="18" font-weight="500" fill="var(--fg)" opacity="0" style="transition:opacity .4s .9s">' + b[1].toFixed(2) + '</text><text x="' + (x + 40) + '" y="274" text-anchor="middle" font-size="15" fill="var(--fg)">' + b[0] + '</text>'; }).join('') +
+    '<text x="40" y="296" font-size="13" fill="var(--muted)">test accuracy on 104 crops the model never saw</text>';
+  hooks['s-challenge'] = { enter(){
+    $$('.bar', svg).forEach(b => { b.setAttribute('y', 250); b.setAttribute('height', 0); }); $$('.bv', svg).forEach(t => t.setAttribute('opacity', 0));
+    later(() => { $$('.bar', svg).forEach(b => { const v = +b.dataset.v; b.setAttribute('y', Y(v)); b.setAttribute('height', 250 - Y(v)); }); $$('.bv', svg).forEach(t => t.setAttribute('opacity', 1)); }, 150);
+  } };
+})();
+
+/* ---------- start ---------- */
+const start = slides.findIndex(s => '#' + s.id === location.hash);
+slides.forEach(s => s.classList.remove('active'));
+cur = 0; slides[0].classList.add('active');
+show(start >= 0 ? start : 0);
+})();
+</script>
+
+</body>
+</html>
