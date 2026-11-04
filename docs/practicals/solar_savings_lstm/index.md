@@ -3,7 +3,7 @@ layout: default
 title: "Practical 6 — Forecasting solar radiation with an LSTM to estimate the savings and payback of rooftop panels"
 ---
 
-# Practical 6 — Forecasting solar radiation with an LSTM to estimate the savings and payback of rooftop panels
+# Practical 6 — Forecasting solar radiation with an LSTM
 
 ## How this session works
 
