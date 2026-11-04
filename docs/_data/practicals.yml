@@ -13,3 +13,6 @@
 - practice: 5
   title: "Training a small Convolutional Neural Network for a Safety Detector"
   path: /practicals/uniform_detector/
+- practice: 6
+  title: "Forecasting solar radiation with an LSTM to estimate the savings and payback of rooftop panels"
+  path: /practicals/solar_savings_lstm/
