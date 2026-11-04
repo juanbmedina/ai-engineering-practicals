@@ -169,7 +169,7 @@ The notebook has five parts, and the challenge sits in Part 3.
 
 > **Before you begin.** If Colab is new to you, read [Getting Started with Google Colab]({{ '/guides/getting-started-colab/' | relative_url }}) first. The notebook runs on the CPU, so accept the connection without GPU. The setup cell downloads the two data files by itself.
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/COLAB_LINK_PENDING)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1uKsBb9oCn3nxgnGgFXhAA2fR6M20nP-s)
 
 ### The data of the session
 
