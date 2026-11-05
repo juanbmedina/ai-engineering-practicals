@@ -3,3 +3,5 @@
 # writing code. Add one entry per demonstration as it is published.
 - title: "Sentiment analysis and word clouds with a large language model"
   path: /demos/sentiment-wordcloud/
+- title: "From a photo to a 3D-printable part"
+  path: /demos/image-to-stl-3d/

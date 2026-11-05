@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Practical 6 — Forecasting solar radiation with an LSTM to estimate the savings and payback of rooftop panels"
+title: "Practical 6 — Forecasting solar radiation with an LSTM"
 ---
 
 # Practical 6 — Forecasting solar radiation with an LSTM
