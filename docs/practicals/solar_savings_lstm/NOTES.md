@@ -28,10 +28,18 @@ Built 2 Nov 2026, revised 3 Nov 2026. Folder `docs/practicals/solar_savings_lstm
 - Buying price 0.35 €/kWh is a round typical unit rate (Selectra uses 0.42 in one calculation).
 
 ## 4 Nov changes
-- Every team works with house 1 (`HOUSE = 1`, fixed). The notebook downloads only the weather file and `house1.csv`; the other three house files stay on the site for reference.
+- Every student works with house 1 (`HOUSE = 1`, fixed). The notebook downloads only the weather file and `house1.csv`; the other three house files stay on the site for reference.
 - The setup cell has a fallback: if `DATA_URL` answers 404 (site not pushed yet) it builds the same files from the original sources, Open-Meteo archive API (`build_weather_from_open_meteo`) and Figshare (`build_house_from_figshare`, ndownloader ids 61423177/80/83/89). The 404 Juan saw on 4 Nov came from the folder not being committed and pushed yet.
 
 - 4 Nov, second round: target of the challenge is now **MAE below 18 W/m²** (`TARGET_MAE = 18`, strict). Teacher path: 10 epochs lr 0.003 → 20.1, + cloud_cover → 18.3 (edge), seven inputs → 16.8 / 17.5 (seed 1), big chain → 16.3 in 35 s, 8 units → 18.4 (above). `plot_week` has fixed axes (7 days, 0–1000 W/m², one tick per day). The LSTM figure is now a three-panel pipeline (window → one LSTM with a memory loop → forecast of hour 25), `fig_lstm2.py`. The factor table in the notebook has three columns so it fits the cell. The MAE sentence on the page no longer uses the | characters (kramdown read them as a table). Section 0.1 names the institutions once and leaves the authors to the citation.
+
+## 5 Nov changes (text revision after David's feedback)
+- David's feedback: the text read as generated. He asked for a direct, academic register, without hooks or abstractions, and pointed out titles that start with Wh, titles of the form "X, Y", and over-justification of obvious points.
+- `index.md` and every Markdown cell of `build_p6.py` rewritten. Titles are now descriptive noun phrases (e.g., "0.4 Daily and seasonal production profile of a solar panel", "Common errors and solutions"), with no Wh/How openings, no commas and no questions. The role-play of "the engineer of a family" is replaced by a direct statement of the two quantities to estimate. "Family" is now "household", "simple guesses" are "baselines", "the reality" is "the measured production". New terms defined at first use: reanalysis, self-consumption, typical day, baseline, validation year, overfitting.
+- Prose mean sentence length went from about 15 to about 20 words (page, troubleshooting excluded). No while/rather/semicolons in the prose.
+- Corrections made on the way: the notebook text claimed that the log table shows the two baselines (it does not), and the weather row of 12:00 is the hour that ends at 12:00 (Open-Meteo averages the preceding hour).
+- Visible code strings updated to match (cell titles, print labels, plot labels and titles). Variable names unchanged. STUDENT and TEACHER notebooks regenerated (27 and 33 cells). The `_executed` notebook still has the old text and outputs.
+- To do: upload the new STUDENT notebook to Drive (replace the file behind the current Colab link, or paste the new link in `index.md`).
 
 ## To do
 - Upload STUDENT to Drive, paste the Colab link in `index.md`, commit and push (the setup cell needs `assets/data/` live on github.io).
