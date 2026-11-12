@@ -5,3 +5,5 @@
   path: /demos/sentiment-wordcloud/
 - title: "Image to STL Studio"
   path: /demos/image-to-stl-3d/
+- title: "Algovivo Lab for soft-body locomotion"
+  path: /demos/algovivo-lab/
