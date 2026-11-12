@@ -19,7 +19,25 @@ In this demonstration, you design a small soft-body creature with sliders, and a
 
 The creature is a soft body made of points, triangles and muscles. Each muscle joins two points and pulls them together when it contracts. The spine is a row of points at the head height, and the feet are points on the floor between minus and plus the leg spread. Each triangle joins one segment of the spine to one foot and resists any change of its shape, so the body behaves as an elastic solid.
 
+The figure below labels the parts of the default creature, which has 3 spine nodes and 2 feet. The blue arrows mark the three lengths that the shape sliders set, and the blue triangle is one of the 4 triangles of the body.
+
+![The default creature with its parts labelled: spine nodes, feet, triangles and muscles, and the three lengths set by the sliders, namely body length, height and leg spread]({{ '/demos/algovivo-lab/assets/creature_anatomy.png' | relative_url }})
+
+The six examples below show how the sliders change the shape. More legs and more spine nodes add triangles and muscles, whereas the three lengths only stretch the same structure.
+
+![Six creatures built with different slider values, from 1 leg and 3 spine nodes to 5 legs and 6 spine nodes, with the number of points, triangles and muscles of each]({{ '/demos/algovivo-lab/assets/shape_examples.png' | relative_url }})
+
 A muscle pattern describes the contraction of every muscle over time as a wave, with one frequency for the whole creature and one amplitude and one phase for each muscle. The score of a pattern is the distance that the centre of the creature travels along the x axis during one trial. Each physics step covers 0.033 s of simulated time, so the default trial of 100 steps lasts 3.3 s.
+
+The evolutionary search keeps the best patterns of each generation and fills the rest of the population with mutated copies of them. The figure below shows the best distance after each generation for three shapes, with the default creature in the middle panel. We ran each shape five times, with a population of 10 and 30 generations. Each thin line is one run, and the thick line is the mean of the five runs. The best distance never decreases, because the search always keeps the best pattern found so far. In contrast, the final distance changes from run to run, because each run starts from different random patterns.
+
+![Best distance after each generation for three shapes, with five runs per shape. All curves rise in steps, and the runs of the same shape end at different distances]({{ '/demos/algovivo-lab/assets/learning_curves.png' | relative_url }})
+
+## Replay of a trained creature
+
+The frames below come from the replay of the default creature after a training with the default budget. The camera stays fixed in these frames, and the dashed line marks the starting position of the centre of the creature. In this run, the best pattern makes the creature roll over to the right, and the creature covers 5.97 units in 3.3 s. The search found a roll instead of a walk, because the score rewards only the distance along the x axis.
+
+![Five frames of the replay of a trained default creature, at steps 0, 25, 50, 75 and 100. The creature rolls to the right and ends 5.97 units from its start]({{ '/demos/algovivo-lab/assets/replay_frames.png' | relative_url }})
 
 ## Preparation before the session
 
@@ -42,6 +60,10 @@ A muscle pattern describes the contraction of every muscle over time as a wave, 
 3. **Training.** Click **Train**, and the panel at the top of the viewer shows the current generation and the best distance so far. The app also trains the default creature once when it opens.
 4. **Replay.** After the training, the viewer replays the best pattern in a loop. Each replay lasts as many steps as one trial, so its final distance matches the training score. Red muscles contract, and pink muscles are relaxed.
 5. **Data.** The **Processing** box lists the coordinates of the points (`pos`), the triangles and the muscles of the creature that you trained. Scroll inside the box to read the whole list.
+
+In section 3, the panel at the top gives the result of the training, and the counter at the bottom follows the current replay. Unlike the frames above, the camera of the app follows the creature, so the grid moves and the creature stays near the centre.
+
+![Section 3 of the app during a replay, with the result of the training at the top and the step and distance of the replay at the bottom]({{ '/demos/algovivo-lab/assets/app_outputs.png' | relative_url }})
 
 
 ## Common errors and solutions
